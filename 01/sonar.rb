@@ -26,9 +26,11 @@ end
 def sonar_sliding(measurements)
 
   sums = measurements.map.with_index do |el, index|
-    if measurements[ + 1] && measurements[index + 2]
+    if measurements[index + 1] && measurements[index + 2]
       el + measurements[index + 1] + measurements[index + 2]
     end
   end.compact
   sonar(sums)
 end
+
+p sonar_sliding(measurements)
