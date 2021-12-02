@@ -1,44 +1,46 @@
 require 'pry-byebug'
-commands = []
-File.open('./input.txt').each do |line|
-  # binding.pry
-  command, num = line.chomp.split
-  commands << [command.to_sym, num.to_i]
-end
+
 
 def position(commands)
-  pos = { horizontal: 0, vertical: 0}
-  commands.each do |cmd|
-    case cmd[0]
-    when :up
-      pos[:vertical] -= cmd[1]
-    when :down
-      pos[:vertical] += cmd[1]
-    when :forward
-      pos[:horizontal] += cmd[1]
-    else
-      # no op
-    end
-  end
-  pos
+  PositionCalculator.new
+                    .process_batch_commands(commands)
 end
 
 
 def position_with_aim(commands)
-  pos = { horizontal: 0, vertical: 0, aim: 0}
-  commands.each do |cmd|
-    case cmd[0]
-    when :up
-      pos[:aim] -= cmd[1]
-    when :down
-      pos[:aim] += cmd[1]
-    when :forward
-      pos[:horizontal] += cmd[1]
-      pos[:vertical] += (pos[:aim] * cmd[1])
-    else
-      # no op
-    end
-  end
-  pos
+  PositionCalculator.new(with_aim: true)
+                    .process_batch_commands(commands)
 end
- p position_with_aim(commands)
+
+
+ class PositionCalculator
+  attr_reader :with_aim
+  def initialize(with_aim: false)
+    @vertical = 0
+    @horizontal = 0
+    @aim = 0
+    @with_aim = with_aim
+  end
+
+  def process_batch_commands(commands)
+    commands.each do |cmd|
+      action, amount = cmd
+      public_send(action, amount)
+    end
+    { vertical: @vertical, horizontal: @horizontal }
+  end
+
+  def up(amount)
+    with_aim ? (@aim -= amount) : (@vertical -= amount)
+  end
+
+  def down(amount)
+    with_aim ? (@aim += amount) : (@vertical += amount)
+  end
+
+  def forward(amount)
+    @horizontal += amount
+    @vertical += (@aim * amount) if with_aim
+  end
+
+ end
