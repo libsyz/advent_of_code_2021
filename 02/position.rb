@@ -1,10 +1,10 @@
-# require 'pry-byebug'
-# commands = []
-# File.open('./input.txt').each do |line|
-#   # binding.pry
-#   command, num = line.chomp.split
-#   commands << [command.to_sym, num.to_i]
-# end
+require 'pry-byebug'
+commands = []
+File.open('./input.txt').each do |line|
+  # binding.pry
+  command, num = line.chomp.split
+  commands << [command.to_sym, num.to_i]
+end
 
 def position(commands)
   pos = { horizontal: 0, vertical: 0}
@@ -41,4 +41,4 @@ def position_with_aim(commands)
   end
   pos
 end
-# p position(commands)
+ p position_with_aim(commands)

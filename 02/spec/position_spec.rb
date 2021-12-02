@@ -33,7 +33,7 @@ describe "#position_with_aim" do
                 [:forward, 2]
               ]
     it "calculates the right total positions" do
-      res = position(commands)
+      res = position_with_aim(commands)
        expect(res[:horizontal]).to eq(15)
        expect(res[:vertical]).to eq(60)
        expect(res[:horizontal] * res[:vertical]).to eq(900)
