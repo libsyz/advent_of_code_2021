@@ -5,20 +5,21 @@ File.open('./input.txt').each do |line|
   data << line.chomp
 end
 
-def cull(indicator_data, index:, flip_flop: true)
-  if indicator_data.length > 1
-      # binding.pry if idx == 2
-      transposed_indicator_data = indicator_data.map { |bin| bin.split('') }.transpose.map(&:join)
-      zeroes = transposed_indicator_data[idx].count('0')
-      ones = transposed_indicator_data[idx].count('1')
-      if zeroes > ones
-        indicator_data.select! { |i| i[idx] == ( flip_flop ? '0' : '1' ) }
-      else
-        indicator_data.select! { |i| i[idx] == ( flip_flop ? '1' : '0' ) }
-      end
-    end
-    indicator_data
+def cull_with_while(indicator_data, flip_flop: true)
+  idx = 0
+  until indicator_data.length == 1
+    transposed_indicator_data = indicator_data.map { |bin| bin.split('') }.transpose.map(&:join)
+    zeroes = transposed_indicator_data[idx].count('0')
+    ones = transposed_indicator_data[idx].count('1')
+    x, y = zeroes > ones ? ['0', '1'] : ['1', '0']
+    indicator_data.select! { |i| i[idx] == ( flip_flop ? x : y ) }
+
+    idx += 1
+  end
+
+  indicator_data
 end
+
 
 def binary_diagnostic(data)
   oxygen = data.dup
@@ -33,11 +34,10 @@ def binary_diagnostic(data)
     gamma_bit, epsilon_bit = zeroes > ones ? ['0', '1'] : ['1', '0']
     gamma << gamma_bit
     epsilon << epsilon_bit
-
-    oxygen = cull(oxygen, index: idx, flip_flop: true)
-    co_two = cull(co_two, index: idx, flip_flop: false)
-
   end
+
+  oxygen = cull_with_while(oxygen, flip_flop: true) if oxygen.length > 1
+  co_two = cull_with_while(co_two, flip_flop: false) if co_two.length > 1
 
   res[:gamma] = gamma
   res[:epsilon] = epsilon
