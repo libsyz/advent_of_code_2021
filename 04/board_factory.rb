@@ -19,15 +19,13 @@ class BoardFactory
   class BingoBoard
     def initialize(board_data)
       @rows = board_data
-      @columns = nil
-      populate_columns
+      @columns = @rows.transpose
+      @nums = @rows.flatten
     end
 
     def mark_at(number)
-      @rows.each do |row|
-         num = row.find { |bingo_num| bingo_num.num == number }
-         num.mark! if num
-      end
+      num = @nums.flatten.find { |bingo_num| bingo_num.num == number }
+      num.mark! if num
     end
 
     def bingo?
@@ -42,20 +40,18 @@ class BoardFactory
     end
 
     def unmarked_sum
-      @rows.map do |row|
-        row.map { |bingo_num| bingo_num.num unless bingo_num.marked? }
-      end.flatten.compact.sum
+      @nums.map { |bingo_num| bingo_num.num unless bingo_num.marked? }
+           .compact
+           .sum
     end
 
-    private
-    def populate_columns
-      @columns = @rows.transpose
-    end
   end
 
-  def self.generate(raw_boards)
-    raw_boards.each_with_object([]) do |rw, obj|
-      board_data = rw.map { |row| row.map { |n| BingoNumber.new(num: n) } }
+  def self.generate(raw_boards, random_sequence)
+    raw_boards.each_with_object([]) do |raw_board, obj|
+      # skip boards that cannot get to bingo
+      next if raw_board.flatten - random_sequence != []
+      board_data = raw_board.map { |row| row.map { |n| BingoNumber.new(num: n) } }
       obj << BingoBoard.new(board_data)
     end
   end
