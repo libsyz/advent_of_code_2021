@@ -2,12 +2,13 @@
 require 'pry-byebug'
 
 
-# points = []
-# Parsing input
-# File.readlines('./input.txt').each do |line|
-#   point_pair = line.chomp.split(' -> ').map { |numstr| numstr.split(',').map(&:to_i)  }
-#   points << point_pair
-# end
+points = []
+
+File.readlines('./input.txt').each do |line|
+  point_pair = line.chomp.split(' -> ').map { |numstr| numstr.split(',').map(&:to_i)  }
+  points << point_pair
+end
+
 def is_diagonal?(point_pair)
   first, second = point_pair
   length = first[0] - second[0]
@@ -71,13 +72,13 @@ def expand(point_pair, diagonal: false)
 end
 
 
-def safe_navigator(data)
+def safe_navigator(data, diagonal: false)
   # generate a 10x10 matrix
   matrix = Array.new(999) { Array.new(999) { 0 }  }
   # go through each point pair
   data.each do |point_pair|
 
-    points = expand(point_pair)
+    points = expand(point_pair, diagonal: diagonal)
     next if points.empty?
     points.each do |point|
       matrix[point[0]][point[1]] += 1
@@ -89,5 +90,5 @@ def safe_navigator(data)
   # check them against the matrix
 end
 
-# binding.pry
-# p safe_navigator(points)
+
+p safe_navigator(points, diagonal: true)

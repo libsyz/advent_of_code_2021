@@ -14,7 +14,7 @@ describe "'#safe_navigator" do
           [[0,0],[8,8]],
           [[5,5],[8,2]]
         ]
-  context "part 1 - detects hydrothermal vents straight lines" do
+  context "part 1 - detects hydrothermal vents with straight lines" do
     it "returns the correct number of points with more than 1
     hydrothermal vent" do
       res = safe_navigator(data)
@@ -23,7 +23,13 @@ describe "'#safe_navigator" do
 
   end
 
-  context "part 2 - " do
+  context "part 2 - detects hydrothermal vents with straight lines
+  and 45 degree diagonal lines" do
+    it 'returns the correct number of points with more than
+    1 hydrothermal vent' do
+      res = safe_navigator(data, diagonal: true)
+      expect(res).to eq(12)
+    end
 
   end
 end
