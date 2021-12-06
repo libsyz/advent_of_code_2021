@@ -2,12 +2,12 @@
 require 'pry-byebug'
 
 
-points = []
+# points = []
 
-File.readlines('./input.txt').each do |line|
-  point_pair = line.chomp.split(' -> ').map { |numstr| numstr.split(',').map(&:to_i)  }
-  points << point_pair
-end
+# File.readlines('./input.txt').each do |line|
+#   point_pair = line.chomp.split(' -> ').map { |numstr| numstr.split(',').map(&:to_i)  }
+#   points << point_pair
+# end
 
 def is_diagonal?(point_pair)
   first, second = point_pair
