@@ -94,7 +94,7 @@ describe "#lanterns" do
     end
 
     it 'after 18 days' do
-      res = lanterns(initial_state, days: 1)
+      res = lanterns(initial_state, days: 18)
       expect(res).to eq([6,0,6,4,5,6,0,1,1,2,6,0,1,1,1,2,2,3,3,4,6,7,8,8,8,8])
     end
 
