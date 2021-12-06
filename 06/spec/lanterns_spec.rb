@@ -7,12 +7,16 @@ describe "#lanterns" do
   context "part one - model the growth rate of the lantern fish" do
     it 'after 1 day' do
       res = lanterns(initial_state, days: 1)
+      calc = lanterns_hash(initial_state, days: 1)
       expect(res).to eq([2,3,2,0,1])
+      expect(calc).to eq(5)
     end
 
     it 'after 2 days' do
       res = lanterns(initial_state, days: 2)
       expect(res).to eq([1,2,1,6,0,8])
+      calc = lanterns_hash(initial_state, days: 2)
+      expect(calc).to eq(6)
     end
 
     it 'after 3 days' do
@@ -55,6 +59,8 @@ describe "#lanterns" do
     it 'after 10 days' do
       res = lanterns(initial_state, days: 10)
       expect(res).to eq([0,1,0,5,6,0,1,2,2,3,7,8])
+      calc = lanterns_hash(initial_state, days: 10)
+      expect(calc).to eq(12)
     end
 
     it 'after 11 days' do
@@ -96,6 +102,18 @@ describe "#lanterns" do
     it 'after 18 days' do
       res = lanterns(initial_state, days: 18)
       expect(res).to eq([6,0,6,4,5,6,0,1,1,2,6,0,1,1,1,2,2,3,3,4,6,7,8,8,8,8])
+    end
+
+    it 'after 80 days gets the right number of lanternfish' do
+      res = lanterns(initial_state, days: 80)
+      expect(res.length).to eq(5934)
+      calc = lanterns_hash(initial_state, days: 80)
+      expect(calc).to eq(5934)
+    end
+
+    it 'after 256 days gets the right number of lanternfish' do
+      calc = lanterns_hash(initial_state, days: 256)
+      expect(calc).to eq(26984457539)
     end
 
   end
