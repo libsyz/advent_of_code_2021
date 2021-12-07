@@ -16,7 +16,7 @@ def align(crabs)
 end
 
 def cost_cal(movement)
-  (1..movement).reduce(:+)
+  movement * (movement + 1) / 2
 end
 
 def align_incremental(crabs)
