@@ -28,3 +28,5 @@ def align_incremental(crabs)
   end
   costs.values.min
 end
+
+p align_incremental(PUZZLE_INPUT)
