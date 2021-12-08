@@ -1,6 +1,16 @@
+require 'pry-byebug'
 
+input = []
+File.readlines('input.txt').each do |line|
 
-def segment_search(entries, easy_mode:)
+  line = line.chomp
+  signal_patterns, outputs = line.split(' | ')
+  signal_patterns = signal_patterns.split(' ')
+  outputs = outputs.split(' ')
+  input << { entry: { signal_patterns: signal_patterns, outputs: outputs }}
+end
+
+def easy_segment_search(entries)
 #segments
       #number
   easy_numbers = {2 => 1,
@@ -17,4 +27,16 @@ def segment_search(entries, easy_mode:)
     end
   end
   return easy_number_count
+end
+
+
+def decode(input)
+  references = {}
+  entries = input[:entry][:signal_patterns]
+  references[:one] = entries.find { |str| str.length == 2 }
+  references[:four] = entries.find { |str| str.length == 4 }
+  references[:seven] = entries.find { |str| str.length == 3 }
+  references[:eight] = entries.find { |str| str.length == 7 }
+
+  references
 end
