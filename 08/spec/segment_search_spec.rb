@@ -1,13 +1,15 @@
 require 'rspec'
+require 'pry-byebug'
 require_relative '../segment_search.rb'
 
 describe "#segment_search" do
   context "part 1 - counting how many times 1, 4, 7 and 8 appear" do
+
     entries = [
       {
         entry: {
-        signal_patterns: ['be','cfbegad','cbdgef','fgaecd','cgeb','fdcge','agebfd','fecdb','fabcd','edb'],
-        outputs: ['fdgacbe', 'cefdb', 'cefbgd', 'gcbe'] }
+          signal_patterns: ['be','cfbegad','cbdgef','fgaecd','cgeb','fdcge','agebfd','fecdb','fabcd','edb'],
+          outputs: ['fdgacbe', 'cefdb', 'cefbgd', 'gcbe'] }
       },
       {
         entry: {
@@ -65,7 +67,10 @@ describe "#segment_search" do
       }
     ]
 
-    segment_search()
+    it "returns the right number of easy numbers" do
+      res = segment_search(entries, easy_mode: 'on')
+      expect(res).to eq(26)
+    end
   end
 
 
