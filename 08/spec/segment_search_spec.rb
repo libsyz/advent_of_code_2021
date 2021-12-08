@@ -1,11 +1,7 @@
 require 'rspec'
 require 'pry-byebug'
 require_relative '../segment_search.rb'
-
-describe "#segment_search" do
-  context "part 1 - counting how many times 1, 4, 7 and 8 appear" do
-
-    entries = [
+    ENTRIES = [
       {
         entry: {
           signal_patterns: ['be','cfbegad','cbdgef','fgaecd','cgeb','fdcge','agebfd','fecdb','fabcd','edb'],
@@ -67,14 +63,24 @@ describe "#segment_search" do
       }
     ]
 
+describe "#segment_search" do
+  context "part 1 - counting how many times 1, 4, 7 and 8 appear" do
+
+
+
     it "returns the right number of easy numbers" do
-      res = easy_segment_search(entries)
+      res = easy_segment_search(ENTRIES)
       expect(res).to eq(26)
     end
   end
 
   context "part 2 - figure out the positions of the segment reader" do
-
+    it 'calculates the right numbers per entry' do
+      res = hard_segment_search(ENTRIES)
+      solution = [8394, 9781, 1197, 9361, 4873, 8418, 4548, 1625, 8717, 4315 ]
+      expect(res).to eq(solution)
+      expect(res.sum).to eq(61229)
+    end
 #   0:      1:      2:      3:      4:
 #  aaaa    ....    aaaa    aaaa    ....
 # b    c  .    c  .    c  .    c  b    c
@@ -107,52 +113,52 @@ describe "#decode" do
 
     it 'correctly decodes number 0' do
       res = decode(input)
-      expect(res[:zero]).to eq('cagedb')
+      expect(res[0]).to eq('cagedb')
     end
 
     it 'correctly decodes number 1' do
       res = decode(input)
-      expect(res[:one]).to eq('ab')
+      expect(res[1]).to eq('ab')
     end
 
     it 'correctly decodes number 2' do
       res = decode(input)
-      expect(res[:two]).to eq('gcdfa')
+      expect(res[2]).to eq('gcdfa')
     end
 
     it 'correctly decodes number 3' do
       res = decode(input)
-      expect(res[:three]).to eq('fbcad')
+      expect(res[3]).to eq('fbcad')
     end
 
     it 'correctly decodes number 4' do
       res = decode(input)
-      expect(res[:four]).to eq('eafb')
+      expect(res[4]).to eq('eafb')
     end
 
     it 'correctly decodes number 5' do
       res = decode(input)
-      expect(res[:five]).to eq('cdfbe')
+      expect(res[5]).to eq('cdfbe')
     end
 
     it 'correctly decodes number 6' do
       res = decode(input)
-      expect(res[:six]).to eq('cdfgeb')
+      expect(res[6]).to eq('cdfgeb')
     end
 
     it 'correctly decodes number 7' do
       res = decode(input)
-      expect(res[:seven]).to eq('dab')
+      expect(res[7]).to eq('dab')
     end
 
     it 'correctly decodes number 8' do
       res = decode(input)
-      expect(res[:eight]).to eq('acedgfb')
+      expect(res[8]).to eq('acedgfb')
     end
 
     it 'correctly decodes number 9' do
       res = decode(input)
-      expect(res[:nine]).to eq('cefabd')
+      expect(res[9]).to eq('cefabd')
     end
 
 

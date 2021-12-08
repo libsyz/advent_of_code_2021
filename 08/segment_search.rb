@@ -30,6 +30,23 @@ def easy_segment_search(entries)
 end
 
 
+def hard_segment_search(entries)
+
+  entries.map do |entry|
+    dictionary = decode(entry)
+    get_joined_number(entry[:entry][:outputs], dictionary)
+  end
+end
+
+
+def get_joined_number(outputs, dictionary)
+  values = []
+
+  outputs.each do |output|
+    values << dictionary.find { |_, v| v.chars.sort == output.chars.sort }[0]
+  end
+  values.join.to_i
+end
 
 
 def decode(input)
@@ -38,10 +55,10 @@ def decode(input)
   entries = input[:entry][:signal_patterns]
 
   # get numbers for numbers with unique number of activated numbers
-  numbers[:one] = entries.find { |str| str.length == 2 }
-  numbers[:four] = entries.find { |str| str.length == 4 }
-  numbers[:seven] = entries.find { |str| str.length == 3 }
-  numbers[:eight] = entries.find { |str| str.length == 7 }
+  numbers[1] = entries.find { |str| str.length == 2 }
+  numbers[4] = entries.find { |str| str.length == 4 }
+  numbers[7] = entries.find { |str| str.length == 3 }
+  numbers[8] = entries.find { |str| str.length == 7 }
   # fun begins here
 
 
@@ -50,17 +67,17 @@ def decode(input)
   # position[:f] = get_f(entries, numbers[:four], positions[:a] )
 
 
-  numbers[:zero] = entries.find { |str| str.length == 6 && !str.include?(positions[:d] )}
-  numbers[:nine] = entries.find{ |str| str.length == 6 && (numbers[:four].chars - str.chars).empty? }
-  numbers[:six] = entries.find { |str| str.length == 6 && str != numbers[:zero] && str != numbers[:nine] }
-  numbers[:three] = entries.find { |str| str.length == 5 && (numbers[:seven].chars - str.chars).empty? }
-  numbers[:five] = entries.find { |str| str.length == 5 && (str.chars - numbers[:six].chars).empty? }
-  numbers[:two] = entries.find { |str| str.length == 5 && str != numbers[:five] && str != numbers[:three] }
+  numbers[0] = entries.find { |str| str.length == 6 && !str.include?(positions[:d] )}
+  numbers[9] = entries.find{ |str| str.length == 6 && (numbers[4].chars - str.chars).empty? }
+  numbers[6] = entries.find { |str| str.length == 6 && str != numbers[0] && str != numbers[9] }
+  numbers[3] = entries.find { |str| str.length == 5 && (numbers[7].chars - str.chars).empty? }
+  numbers[5] = entries.find { |str| str.length == 5 && (str.chars - numbers[6].chars).empty? }
+  numbers[2] = entries.find { |str| str.length == 5 && str != numbers[5] && str != numbers[3] }
   numbers
 end
 
 def get_a(numbers)
-  numbers[:seven].chars - numbers[:one].chars
+  numbers[7].chars - numbers[1].chars
 end
 
 def get_d(entries)
@@ -69,8 +86,5 @@ def get_d(entries)
   b = chars.chars.find { |c| possibles.all? {  |ps| ps.include? c } }
 end
 
-def get_f(entries, four, pos_a)
-  # position a + four gives you (9 - 1 position)
-  # the position missing is f
 
-end
+p hard_segment_search(input).sum
