@@ -105,7 +105,7 @@ describe "#decode" do
           }
         }
 
-    xit 'correctly decodes number 0' do
+    it 'correctly decodes number 0' do
       res = decode(input)
       expect(res[:zero]).to eq('cagedb')
     end
@@ -115,12 +115,12 @@ describe "#decode" do
       expect(res[:one]).to eq('ab')
     end
 
-    xit 'correctly decodes number 2' do
+    it 'correctly decodes number 2' do
       res = decode(input)
       expect(res[:two]).to eq('gcdfa')
     end
 
-    xit 'correctly decodes number 3' do
+    it 'correctly decodes number 3' do
       res = decode(input)
       expect(res[:three]).to eq('fbcad')
     end
@@ -130,12 +130,12 @@ describe "#decode" do
       expect(res[:four]).to eq('eafb')
     end
 
-    xit 'correctly decodes number 5' do
+    it 'correctly decodes number 5' do
       res = decode(input)
       expect(res[:five]).to eq('cdfbe')
     end
 
-    xit 'correctly decodes number 6' do
+    it 'correctly decodes number 6' do
       res = decode(input)
       expect(res[:six]).to eq('cdfgeb')
     end
@@ -150,7 +150,7 @@ describe "#decode" do
       expect(res[:eight]).to eq('acedgfb')
     end
 
-    xit 'correctly decodes number 9' do
+    it 'correctly decodes number 9' do
       res = decode(input)
       expect(res[:nine]).to eq('cefabd')
     end
