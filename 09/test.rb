@@ -31,4 +31,4 @@ def get_valid_adjacents(arr, index)
   [left, right].compact
 end
 
-p get_cave([9, 3, 2, 1, 2, 2, 9], 3)
+p get_cave([1, 1, 9, 1, 9, 1, 1], 3)
