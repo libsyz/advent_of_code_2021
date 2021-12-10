@@ -15,10 +15,24 @@ describe "Heightmap" do
 
     heightmap = Heightmap.new(INPUT)
 
-    describe "#low points" do
+    describe "#low_points" do
       it "returns the low points in the input" do
         res = heightmap.low_points
         expect(res).to eq([1, 0, 5, 5])
+      end
+    end
+
+    describe "#low_coordinates" do
+      it "returns the coordinates in the input" do
+        res = heightmap.low_coordinates
+        expect(res).to eq([[0, 1], [0, 9], [2, 2], [4, 6]])
+      end
+    end
+
+    describe "#get_basin_score" do
+      it 'calculates the right amount of the length of the caves' do
+        res = heightmap.get_basin_score
+        expect(res).to eq(1134)
       end
     end
 

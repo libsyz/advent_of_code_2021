@@ -12,10 +12,13 @@ end
 
 
 class Heightmap
-  attr_reader :low_points
+  attr_reader :low_points, :low_coordinates
+
   def initialize(input)
     @rows = input
     @cols = input.transpose
+    @low_coordinates = []
+    @basins = []
     @low_points = calculate_low_points
   end
 
@@ -52,14 +55,60 @@ class Heightmap
           # binding.pry
           adjacents = [ point, point_ahead(row, point_idx), point_behind(row, point_idx), point_above(row_idx, point_idx), point_below(row_idx, point_idx)]
           min_value = adjacents.compact.min
-          low_points << point if (min_value == point) && (adjacents.count(min_value) == 1)
+          if (min_value == point) && (adjacents.count(min_value) == 1)
+            low_points << point
+            @low_coordinates << [row_idx, point_idx]
+          end
       end
     end
     low_points
+  end
+
+  def get_basin_score
+    @low_coordinates.each do |coord|
+      @basins << get_cave(coord)
+    end
+    @basins.map { |b| b.length }.max(3).reduce(:*)
+  end
+
+  def get_cave(low_point)
+    queue = [low_point]
+    already_processed = []
+    valid = []
+
+    while !queue.empty?
+
+      queue.each do |point|
+        valid << point if @rows[point[0]][point[1]] != 9 || !already_processed.include?(point)
+        already_processed << point
+        adjacents = get_valid_adjacents(point)
+        queue.delete(point)
+
+        adjacents.each do |point|
+          queue << point unless already_processed.include?(point)
+        end
+      end
+    end
+
+    valid.map { |point| @rows[point[0]][point[1]]   }
+
+  end
+
+
+  def get_valid_adjacents(point)
+
+    row, pos = point
+    # because that would mean there's no valid coords
+    behind = pos.zero? || @rows[row][pos - 1] == 9 ? nil : [row, pos - 1]
+    ahead = @rows[row][pos + 1].nil? || @rows[row][pos + 1] == 9 ? nil : [row, pos + 1]
+    above = row.zero? || @rows[row - 1][pos] == 9 ? nil : [row - 1, pos]
+    below = @rows[row + 1].nil? || @rows[row + 1][pos] == 9 ? nil : [row + 1, pos]
+    [behind, ahead, above, below].compact
   end
 end
 
 
 h = Heightmap.new(input)
-p h.calculate_low_points
-p h.sum
+
+
+p h.get_basin_score

@@ -11,7 +11,7 @@ def get_cave(arr, starting_point)
     queue.each do |point|
       valid << point if arr[point[0]][point[1]] != 9 || !already_processed.include?(point)
       already_processed << point
-      adjacents = get_valid_adjacents(arr, point)
+      adjacents = get_valid_adjacents(point)
       queue.delete(point)
 
       adjacents.each do |point|
@@ -36,5 +36,5 @@ def get_valid_adjacents(arr, point)
 end
 
 p get_cave([[9, 9, 9, 2, 9, 9, 9],
-            [9, 9, 2, 1, 2, 9, 9],
+            [7, 7, 2, 1, 2, 3, 4],
             [9, 9, 9, 2, 9, 9, 9]], [1, 3])
