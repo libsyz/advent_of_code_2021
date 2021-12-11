@@ -2,7 +2,7 @@ require 'rspec'
 require 'pry-byebug'
 require_relative '../code_parser.rb'
 
-describe '#line_score' do
+describe '#syntax_error_score' do
   input = [
           "[({(<(())[]>[[{[]{<()<>>",
           "[(()[<>])]({[<{<<[]>>(",
@@ -15,6 +15,12 @@ describe '#line_score' do
           "<{([([[(<>()){}]>(<<{{",
           "<{([{{}}[<[[[<>{}]]]>[]]"
         ]
+
+  it 'computes the right score for the test input' do
+    res = syntax_error_score(input)
+    expect(res).to eq(26397)
+  end
+
 end
 
 
@@ -46,4 +52,24 @@ describe '#line_checker' do
       expect(res).to eq(')')
     end
   end
+end
+
+describe "#line_closer" do
+  context 'an open line' do
+    it 'returns the correct closing sequence' do
+      res = line_closer('[({(<(())[]>[[{[]{<()<>>')
+      expect(res).to eq('}}]])})]')
+    end
+
+    it 'returns the correct closing sequence' do
+      res = line_closer('[(()[<>])]({[<{<<[]>>(')
+      expect(res).to eq(')}>]})')
+    end
+
+    it 'returns the correct closing sequence' do
+      res = line_closer('{<[[]]>}<{[{[{[]{()[[[]')
+      expect(res).to eq(']]}}]}]}>')
+    end
+  end
+
 end
