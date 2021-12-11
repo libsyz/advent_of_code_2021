@@ -73,3 +73,24 @@ describe "#line_closer" do
   end
 
 end
+
+
+describe "#closing_calculator" do
+  context 'with valid closings' do
+    it 'returns the correct score' do
+      res = closing_calculator('}}]])})]')
+      expect(res).to eq(288957)
+    end
+
+    it 'returns the correct score' do
+      res = closing_calculator(')}>]})')
+      expect(res).to eq(5566)
+    end
+
+    it 'returns the correct closing sequence' do
+      res = closing_calculator('}}>}>))))')
+      expect(res).to eq(1480781)
+    end
+  end
+
+end

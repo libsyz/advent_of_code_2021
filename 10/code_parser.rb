@@ -41,6 +41,13 @@ MIRROR = {
     '[' => ']'
   }
 
+CLOSER_SCORE = {
+    ')' => 1,
+    ']' => 2,
+    '}' => 3,
+    '>' => 4
+  }
+
 
 
 def syntax_error_score(lines_arr)
@@ -65,4 +72,14 @@ def line_closer(line)
   end
 
   closing
+end
+
+def closing_calculator(closing)
+  total = 0
+  closing.chars.each do |char|
+    total *= 5
+    total += CLOSER_SCORE[char]
+  end
+
+  total
 end
