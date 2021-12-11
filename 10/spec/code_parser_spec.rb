@@ -91,6 +91,30 @@ describe "#closing_calculator" do
       res = closing_calculator('}}>}>))))')
       expect(res).to eq(1480781)
     end
+
+    it 'returns the correct closing sequence' do
+      res = closing_calculator(']]}}]}]}>')
+      expect(res).to eq(995444)
+    end
+
+    it 'returns the correct closing sequence' do
+      res = closing_calculator('])}>')
+      expect(res).to eq(294)
+    end
   end
+
+  describe "#final_score" do
+    context "with a set of scores" do
+      it 'gets the middle score out of the set' do
+        scores = [288957, 5566, 1480781, 995444, 294]
+        res = final_score(scores)
+        expect(res).to eq(288957)
+      end
+
+    end
+
+
+  end
+
 
 end

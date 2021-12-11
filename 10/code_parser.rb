@@ -63,7 +63,7 @@ end
 
 def line_closer(line)
   line = line_cleaner!(line)
-  return if line.empty? || line_checker(line)
+  return nil if line.empty? || line_checker(line)
 
 
   closing = ''
@@ -83,3 +83,23 @@ def closing_calculator(closing)
 
   total
 end
+
+
+def final_score(score_set)
+  middle = (score_set.length / 2)
+  score_set.sort[middle]
+end
+
+
+scores = []
+
+lines.each do |line|
+  closing = line_closer(line)
+  if closing
+    score = closing_calculator(closing)
+    scores << score
+  end
+end
+
+
+p final_score(scores)
