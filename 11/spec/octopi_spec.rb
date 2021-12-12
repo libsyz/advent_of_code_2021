@@ -20,8 +20,7 @@ describe "#flash_counter" do
                    [3,4,5,4,3]]
       octo_set = OctopiSet.new(simple_octopi)
       octo_set.step!
-
-      #expect(octo_set.to_a).to eq(expected)
+      expect(octo_set.to_a).to eq(expected)
     end
 
   end
