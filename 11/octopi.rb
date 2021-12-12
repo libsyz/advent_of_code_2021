@@ -67,10 +67,6 @@ class OctopiSet
     @octopi.flatten.select(&:flashing?).each(&:unflash!)
   end
 
-  def octopi_flashing
-    @octopi.flatten.any?(&:flashing?)
-  end
-
   def to_a
     @octopi.map { |row| row.map { |oct| oct.energy }  }
   end
