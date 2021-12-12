@@ -17,8 +17,12 @@ class Octopus
     @flashing
   end
 
+  def unflash!
+    @flashing = false
+  end
+
   def step!
-    @energy += 1
+    @energy += 1 unless @flashing
     if @energy == 10
       @energy = 0
       set.flashing_queue << self unless @flashing
@@ -53,6 +57,8 @@ class OctopiSet
       @flashing_queue[0].emit_flash
       @flashing_queue.delete_at(0)
     end
+
+    @octopi.flatten.select(&:flashing?).each(&:unflash!)
   end
 
   def octopi_flashing
