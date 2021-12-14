@@ -35,25 +35,49 @@ describe "InstructionReader" do
   describe "#to_a" do
     it "plots the dots on the chart accurately" do
      reader = InstructionReader.new(test_input)
-     expected =[["...#..#..#."],
-                ["....#......"],
-                ["..........."],
-                ["#.........."],
-                ["...#....#.#"],
-                ["..........."],
-                ["..........."],
-                ["..........."],
-                ["..........."],
-                ["..........."],
-                [".#....#.##."],
-                ["....#......"],
-                ["......#...#"],
-                ["#.........."],
-                ["#.#........"]]
+      expected =[["...#..#..#."],
+                  ["....#......"],
+                  ["..........."],
+                  ["#.........."],
+                  ["...#....#.#"],
+                  ["..........."],
+                  ["..........."],
+                  ["..........."],
+                  ["..........."],
+                  ["..........."],
+                  [".#....#.##."],
+                  ["....#......"],
+                  ["......#...#"],
+                  ["#.........."],
+                  ["#.#........"]]
 
       expect(reader.to_a).to eq(expected)
     end
   end
+
+
+  describe "#fold" do
+    context "with a vertical fold" do
+      it "produces the right plot after folding on index 7" do
+        reader = InstructionReader.new(test_input)
+        reader.fold!(7, direction: :vertical)
+        expected =[["#.##..#..#."],
+                   ["#...#......"],
+                   ["......#...#"],
+                   ["#...#......"],
+                   [".#.#..#.###"],
+                   ["..........."],
+                   ["..........."]]
+
+        expect(reader.to_a).to eq(expected)
+      end
+
+
+    end
+
+
+  end
+
 
 
   end

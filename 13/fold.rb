@@ -24,4 +24,33 @@ class InstructionReader
     end
     return arr
   end
+
+
+  def fold!(position, direction:)
+    if direction == :vertical
+      fold_vertically(position)
+    end
+
+    if direction == :horizontal
+      fold_horizontally(position)
+    end
+  end
+
+  private
+
+  def fold_vertically(position)
+    split = @points.group_by { |p| p.y > position }
+    above_fold = split[false]
+    below_fold = split[true]
+
+    # anything below the fold needs to remap their y position
+    # binding.pry
+    below_fold.each do |point|
+      point.y = (point.y - 2 * position).abs
+    end
+
+    @points = above_fold.concat(below_fold).uniq
+    @max_x = @points.max_by { |p| p.x }.x
+    @max_y = position - 1
+  end
 end
