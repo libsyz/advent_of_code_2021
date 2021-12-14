@@ -39,18 +39,58 @@ class InstructionReader
   private
 
   def fold_vertically(position)
-    split = @points.group_by { |p| p.y > position }
+    split = @points.group_by { |p| p.y >= position }
     above_fold = split[false]
     below_fold = split[true]
 
     # anything below the fold needs to remap their y position
     # binding.pry
+
     below_fold.each do |point|
-      point.y = (point.y - 2 * position).abs
+      point.y = position - (point.y - position)
     end
 
     @points = above_fold.concat(below_fold).uniq
+    @points.delete_if { |p| p.y == position }
     @max_x = @points.max_by { |p| p.x }.x
     @max_y = position - 1
   end
+
+
 end
+
+
+# 0 1 2    3 4 5
+#          0 1 2
+# x x x  | x x x
+
+# 0 1 2 3 | 4 5 6 7
+# x x x x | x x x x
+
+
+# 0
+# 1
+# 2
+# 3
+# -------------
+# 4 3
+# 5 2
+# 6 1
+# 7 0
+
+
+# 0
+# 1
+# 2
+# 3
+# 4
+# 5
+# 6
+# 7 ------------------
+# 8  => 7 - (8 - 7) => 6
+# 9  => 7 - (9 - 7) => 5
+# 10 => 7 - (10 - 7) => 4
+# 11 => 7 - (11 - 7) => 3
+# 12 --
+# 13 --
+# 14 --
