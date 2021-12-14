@@ -51,9 +51,25 @@ class InstructionReader
     end
 
     @points = above_fold.concat(below_fold).uniq
-    @points.delete_if { |p| p.y == position }
-    @max_x = @points.max_by { |p| p.x }.x
+    @points.delete_if { |p| p.y == position }    # @max_x = @points.max_by { |p| p.x }.x
     @max_y = position - 1
+  end
+
+  def fold_horizontally(position)
+    split = @points.group_by { |p| p.x >= position }
+    above_fold = split[false]
+    below_fold = split[true]
+
+    # anything below the fold needs to remap their y position
+    # binding.pry
+
+    below_fold.each do |point|
+      point.x = position - (point.x - position)
+    end
+
+    @points = above_fold.concat(below_fold).uniq
+    @points.delete_if { |p| p.x == position }    # @max_x = @points.max_by { |p| p.x }.x
+    @max_x = position - 1
   end
 
 

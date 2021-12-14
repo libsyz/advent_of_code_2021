@@ -72,7 +72,19 @@ describe "InstructionReader" do
         expect(reader.to_a).to eq(expected)
       end
 
-      it "produces the right plot after folding horizontally on index 3"
+      it "produces the right plot after folding horizontally on index 5" do
+        reader = InstructionReader.new(test_input)
+        reader.fold!(7, direction: :vertical)
+        reader.fold!(5, direction: :horizontal)
+        expected =[["#####"],
+                   ["#...#"],
+                   ["#...#"],
+                   ["#...#"],
+                   ["#####"],
+                   ["....."],
+                   ["....."]]
+        expect(reader.to_a).to eq(expected)
+      end
     end
 
 
