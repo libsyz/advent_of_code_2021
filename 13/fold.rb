@@ -75,38 +75,36 @@ class InstructionReader
 
 end
 
-
-# 0 1 2    3 4 5
-#          0 1 2
-# x x x  | x x x
-
-# 0 1 2 3 | 4 5 6 7
-# x x x x | x x x x
+input = []
+File.readlines('input.txt').each do |line|
+  input << line.split(',').map(&:to_i)
+end
 
 
-# 0
-# 1
-# 2
-# 3
-# -------------
-# 4 3
-# 5 2
-# 6 1
-# 7 0
+reader = InstructionReader.new(input)
+reader.fold!(655, direction: :horizontal)
+reader.fold!(447, direction: :vertical)
+reader.fold!(327, direction: :horizontal)
+reader.fold!(223, direction: :vertical)
+reader.fold!(163, direction: :horizontal)
+reader.fold!(111, direction: :vertical)
+reader.fold!(81, direction: :horizontal)
+reader.fold!(55, direction: :vertical)
+reader.fold!(40, direction: :horizontal)
+reader.fold!(27, direction: :vertical)
+reader.fold!(13, direction: :vertical)
+reader.fold!(6, direction: :vertical)
 
-
-# 0
-# 1
-# 2
-# 3
-# 4
-# 5
-# 6
-# 7 ------------------
-# 8  => 7 - (8 - 7) => 6
-# 9  => 7 - (9 - 7) => 5
-# 10 => 7 - (10 - 7) => 4
-# 11 => 7 - (11 - 7) => 3
-# 12 --
-# 13 --
-# 14 --
+puts reader.to_a
+# fold along x=655
+# fold along y=447
+# fold along x=327
+# fold along y=223
+# fold along x=163
+# fold along y=111
+# fold along x=81
+# fold along y=55
+# fold along x=40
+# fold along y=27
+# fold along y=13
+# fold along y=6
