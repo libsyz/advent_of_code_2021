@@ -1,39 +1,115 @@
-@nodes = [['start','A'],
-         ['start','b']
-         ['A','c'],
-         ['A','b'],
-         ['b','d'],
-         ['A','end'],
-         ['b','end']]
 
-def possibles(candidate, candidates)
-  # look at the last node in my candidate
+require 'pry-byebug'
 
-  # if it has an end, I'm done
+class Node
+  attr_reader :links, :name
 
-  # if it has anything else, look for something with an
-  # end that closes
+  def initialize(name)
+    @name = name
+    @links = []
+    @visited = 0
+  end
 
-  # if the solution is already there, we need a
-  # new one in the candidates, if possible
+  def add_link(node)
+    return if node == self
 
-  #
+    @links.push(node) unless @links.include? node
+    node.add_link(self) unless node.include? self
+  end
+
+  def include?(node)
+    @links.include? node
+  end
+
+  def explore!
+    @visited += 1
+  end
+
+  def explored?
+    @visited > 0
+  end
+
 end
 
-def solve!(arr)
-  candidates = []
-  # find the starting nodes
-  starts = @nodes.select { |nd| nd.include? 'start' }
 
-  # iterate through the starting nodes
-  starts.each_with_index do |stnd, idx|
-    candidates = possibles([stnd], candidates)
-    until candidates != candidates.uniq!
-      candidates.each do |candidate|
-        candidates = possibles(candidate, candidates)
+list = ["start-A",
+        "start-b",
+        "A-c",
+        "A-b",
+        "b-d",
+        "A-end",
+        "b-end"]
+
+class NodeParser
+  attr_reader :nodes
+
+  def initialize
+    @nodes = []
+  end
+
+  def to_s
+    name
+  end
+
+  def generate(list)
+    list.each do |link|
+      first, second = link.split('-').map do |node_name|
+        found = @nodes.find { |nd| nd.name == node_name  }
+        found ? found : Node.new(node_name)
       end
+      first.add_link(second)
+      @nodes.push(first) unless @nodes.include?(first)
+      @nodes.push(second) unless @nodes.include?(second)
     end
+    self
   end
 end
 
-p arr
+
+node_list = NodeParser.new.generate(list).nodes
+
+start_node = node_list.find { |nd| nd.name == 'start' }
+
+
+
+def get_routes(start, routes)
+  queue = [[start,'']]
+
+
+  until queue.empty?
+    first = queue.shift
+    first[0].explore!
+
+    first[0].links.each do |node|
+      next if node.explored?
+      queue << [node, "#{first[1]}, #{node.name} " ] unless node.explored?
+      routes << [node, "#{first[1]}, #{node.name} " ] unless node.explored?
+    end
+  end
+
+  return routes
+end
+
+
+puts get_routes(start_node, [])
+
+
+# def sum(n, arr)
+#   if n == 1
+#     return arr << n
+#   end
+
+#   return "#{arr << n}, #{sum(n - 1, arr)}"
+# end
+
+
+
+
+# get the start node
+# start a route as an empty string
+# add the start node's name
+# get the children
+# for each of them
+# is the node the end node?
+  # if it is, add it to the solution string
+  # add the node to the queue
