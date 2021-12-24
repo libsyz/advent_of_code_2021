@@ -18,12 +18,6 @@ class Node
     "#{@name}"
   end
 
-  def single_visit?
-    @name.upcase != @name ||
-    @name == 'start' ||
-    @name == 'end'
-  end
-
   def add_link(node)
     return if node == self
 
@@ -35,24 +29,27 @@ class Node
     @links.include? node
   end
 
-  def explore!
-    @visited += 1
-  end
-
-  def explored?
-    @visited > 0
-  end
-
 end
 
 
-list = ["start-A",
-        "start-b",
-        "A-c",
-        "A-b",
-        "b-d",
-        "A-end",
-        "b-end"]
+# list = ["start-A",
+#         "start-b",
+#         "A-c",
+#         "A-b",
+#         "b-d",
+#         "A-end",
+#         "b-end"]
+
+list = ['dc-end',
+        'HN-start',
+        'start-kj',
+        'dc-start',
+        'dc-HN',
+        'LN-dc',
+        'HN-end',
+        'kj-sa',
+        'kj-HN',
+        'kj-dc']
 
 class NodeParser
   attr_reader :nodes
@@ -84,20 +81,33 @@ node_list = NodeParser.new.generate(list).nodes
 
 start_node = node_list.find { |nd| nd.name == 'start' }
 
-binding.pry
+
 
 def get_routes(start, routes)
-  queue = [[start,'start']]
+  queue = [ [start,'start'] ]
 
   until queue.empty?
     first = queue.shift
-    first[0].explore!
 
     first[0].links.each do |node|
-      # binding.pry
-      next if (node.explored? && node.single_visit?)
+
+      if node.name == 'start'
+        next
+      end
+
+      routes << [node, "#{first[1]}, #{node.name}" ]
+
+      if node.name == 'end'
+        next
+      end
+      # end node should not be added to the queue - not allowed to go back up
+
+      # small caves should not be added if visited
+      if node.name == node.name.downcase && routes.last[1].count(node.name) > 1
+        next
+      end
+
       queue << [node, "#{first[1]}, #{node.name} " ]
-      routes << [node, "#{first[1]}, #{node.name} " ]
     end
   end
 
