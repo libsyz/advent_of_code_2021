@@ -40,16 +40,59 @@ end
 #         "A-end",
 #         "b-end"]
 
-list = ['dc-end',
-        'HN-start',
-        'start-kj',
-        'dc-start',
-        'dc-HN',
-        'LN-dc',
-        'HN-end',
-        'kj-sa',
-        'kj-HN',
-        'kj-dc']
+# list = ['dc-end',
+#         'HN-start',
+#         'start-kj',
+#         'dc-start',
+#         'dc-HN',
+#         'LN-dc',
+#         'HN-end',
+#         'kj-sa',
+#         'kj-HN',
+#         'kj-dc']
+
+list = ['fs-end',
+        'he-DX',
+        'fs-he',
+        'start-DX',
+        'pj-DX',
+        'end-zg',
+        'zg-sl',
+        'zg-pj',
+        'pj-he',
+        'RW-he',
+        'fs-DX',
+        'pj-RW',
+        'zg-RW',
+        'start-pj',
+        'he-WI',
+        'zg-he',
+        'pj-fs',
+        'start-RW']
+
+# puzzle_input =  ['nu-start',
+#                 'rt-start',
+#                 'db-qh',
+#                 'PE-end',
+#                 'sl-rt',
+#                 'qh-end',
+#                 'ZH-rt',
+#                 'nu-rt',
+#                 'PE-db',
+#                 'db-sl',
+#                 'nu-ZH',
+#                 'nu-qh',
+#                 'PE-qh',
+#                 'ZH-db',
+#                 'ne-end',
+#                 'ne-ZH',
+#                 'QG-db',
+#                 'qh-sl',
+#                 'ZH-qh',
+#                 'start-ZH',
+#                 'nu-PE',
+#                 'uf-db',
+#                 'ne-sl']
 
 class NodeParser
   attr_reader :nodes
@@ -77,7 +120,7 @@ class NodeParser
 end
 
 
-node_list = NodeParser.new.generate(list).nodes
+node_list = NodeParser.new.generate(puzzle_input).nodes
 
 start_node = node_list.find { |nd| nd.name == 'start' }
 
@@ -103,7 +146,7 @@ def get_routes(start, routes)
       # end node should not be added to the queue - not allowed to go back up
 
       # small caves should not be added if visited
-      if node.name == node.name.downcase && routes.last[1].count(node.name) > 1
+      if node.name == node.name.downcase && routes.last[1].scan(node.name).size > 1
         next
       end
 
