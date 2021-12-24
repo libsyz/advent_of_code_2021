@@ -10,6 +10,20 @@ class Node
     @visited = 0
   end
 
+  def inspect
+    "#{@name} -> #{links.map(&:name)}"
+  end
+
+  def to_s
+    "#{@name}"
+  end
+
+  def single_visit?
+    @name.upcase != @name ||
+    @name == 'start' ||
+    @name == 'end'
+  end
+
   def add_link(node)
     return if node == self
 
@@ -70,20 +84,20 @@ node_list = NodeParser.new.generate(list).nodes
 
 start_node = node_list.find { |nd| nd.name == 'start' }
 
-
+binding.pry
 
 def get_routes(start, routes)
-  queue = [[start,'']]
-
+  queue = [[start,'start']]
 
   until queue.empty?
     first = queue.shift
     first[0].explore!
 
     first[0].links.each do |node|
-      next if node.explored?
-      queue << [node, "#{first[1]}, #{node.name} " ] unless node.explored?
-      routes << [node, "#{first[1]}, #{node.name} " ] unless node.explored?
+      # binding.pry
+      next if (node.explored? && node.single_visit?)
+      queue << [node, "#{first[1]}, #{node.name} " ]
+      routes << [node, "#{first[1]}, #{node.name} " ]
     end
   end
 
