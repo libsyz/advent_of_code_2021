@@ -1,21 +1,21 @@
 require 'pry-byebug'
-# @grid = [[1,1,1],
-#          [2,3,1],
-#          [2,3,1]]
+@grid = [[1,1,1],
+         [2,3,1],
+         [2,3,1]]
 
 
-@grid = [
-        [1,1,6,3,7,5,1,7,4,2],
-        [1,3,8,1,3,7,3,6,7,2],
-        [2,1,3,6,5,1,1,3,2,8],
-        [3,6,9,4,9,3,1,5,6,9],
-        [7,4,6,3,4,1,7,1,1,1],
-        [1,3,1,9,1,2,8,1,3,7],
-        [1,3,5,9,9,1,2,4,2,1],
-        [3,1,2,5,4,2,1,6,3,9],
-        [1,2,9,3,1,3,8,5,2,1],
-        [2,3,1,1,9,4,4,5,8,1]
-      ]
+# @grid = [
+#         [1,1,6,3,7,5,1,7,4,2],
+#         [1,3,8,1,3,7,3,6,7,2],
+#         [2,1,3,6,5,1,1,3,2,8],
+#         [3,6,9,4,9,3,1,5,6,9],
+#         [7,4,6,3,4,1,7,1,1,1],
+#         [1,3,1,9,1,2,8,1,3,7],
+#         [1,3,5,9,9,1,2,4,2,1],
+#         [3,1,2,5,4,2,1,6,3,9],
+#         [1,2,9,3,1,3,8,5,2,1],
+#         [2,3,1,1,9,4,4,5,8,1]
+#       ]
 
 # @grid = []
 
@@ -37,7 +37,7 @@ def impossible?(pos)
 end
 
 def end_routes(pos,memo = {}, sum = 0)
-  # binding.pry
+  binding.pry
   row, col = pos
 
   if pos == [@max_row, @max_col]
@@ -55,14 +55,13 @@ def end_routes(pos,memo = {}, sum = 0)
   # I am out of bounds
 
   # otherwise, move down and right until you hit the base case
-  down = end_routes([row + 1, col], memo, sum + @grid[row][col])
-  right = end_routes([row, col + 1], memo, sum + @grid[row][col])
+  go_down = end_routes([row + 1, col], memo, sum + @grid[row][col])
+  go_right = end_routes([row, col + 1], memo, sum + @grid[row][col])
 
-  memo["#{row}-#{col}"] = [down, right].min
+  memo["#{row}-#{col}"] = [go_down, go_right].min
 
-  return memo["#{row}-#{col}"]
-
+  return [go_down, go_right].min
 end
 
 
-p end_routes([0, 0]) - @grid[0][0]
+p end_routes([0, 0])
