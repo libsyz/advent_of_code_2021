@@ -36,17 +36,28 @@ def impossible?(pos)
   return false
 end
 
-def end_routes(pos, sum = 0)
+def end_routes(pos,memo = {}, sum = 0)
   # binding.pry
   row, col = pos
 
-  return sum + @grid[@max_row][@max_col] if pos == [@max_row, @max_col]
-  return Float::INFINITY if impossible?(pos)
+  if pos == [@max_row, @max_col]
+    return sum + @grid[@max_row][@max_col]
+  end
+
+  if impossible?(pos)
+
+    return Float::INFINITY
+  end
 
   # I am out of bounds
 
   # otherwise, move down and right until you hit the base case
-  return [end_routes([row + 1, col], sum + @grid[row][col]), end_routes([row, col + 1], sum + @grid[row][col])].min
+  down = end_routes([row + 1, col], memo, sum + @grid[row][col])
+  right = end_routes([row, col + 1], memo, sum + @grid[row][col])
+
+  memo["#{row}-#{col}"] = [down, right].min
+
+  return memo["#{row}-#{col}"]
 
 end
 
