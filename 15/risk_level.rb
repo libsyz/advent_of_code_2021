@@ -1,7 +1,7 @@
 require 'pry-byebug'
-@grid = [[1,1,1],
-         [2,3,1],
-         [2,3,1]]
+# @grid = [[1,1,1],
+#          [2,3,1],
+#          [2,3,1]]
 
 
 # @grid = [
@@ -17,15 +17,15 @@ require 'pry-byebug'
 #         [2,3,1,1,9,4,4,5,8,1]
 #       ]
 
-# @grid = []
+@grid = []
 
-# File.readlines('input.txt').each do |line|
-#   @grid << line.split('').map(&:to_i)
-# end
+File.readlines('./input.txt').each do |line|
+  @grid << line.chomp.split('').map(&:to_i)
+end
 
-# binding.pry
+binding.pry
 @max_row = @grid.length - 1
-@max_col = @grid.first.length - 1
+@max_col =  @grid.first.length - 1
 
 def impossible?(pos)
   row, col = pos
@@ -37,11 +37,11 @@ def impossible?(pos)
 end
 
 def end_routes(pos,memo = {}, sum = 0)
-  binding.pry
+  # binding.pry
   row, col = pos
 
   if pos == [@max_row, @max_col]
-    return sum + @grid[@max_row][@max_col]
+    return @grid[@max_row][@max_col]
   end
 
   if impossible?(pos)
@@ -49,7 +49,7 @@ def end_routes(pos,memo = {}, sum = 0)
   end
 
   if memo.has_key?("#{row}-#{col}")
-    return sum + memo["#{row}-#{col}"]
+    return memo["#{row}-#{col}"]
   end
 
   # I am out of bounds
@@ -58,10 +58,10 @@ def end_routes(pos,memo = {}, sum = 0)
   go_down = end_routes([row + 1, col], memo, sum + @grid[row][col])
   go_right = end_routes([row, col + 1], memo, sum + @grid[row][col])
 
-  memo["#{row}-#{col}"] = [go_down, go_right].min
-
-  return [go_down, go_right].min
+  memo["#{row}-#{col}"] = [go_down, go_right].min + @grid[row][col]
+  p memo if row == 0 and col == 0
+  return [go_down, go_right].min + @grid[row][col]
 end
 
 
-p end_routes([0, 0])
+p end_routes([0, 0]) - @grid[0][0]

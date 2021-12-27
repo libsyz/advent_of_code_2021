@@ -93,15 +93,14 @@ describe '#get_long_routes' do
     start_node = node_list.find { |nd| nd.name == 'start' }
 
     all_routes = get_long_routes(start_node, [])
-    binding.pry
     end_routes = all_routes.select { |route| route[1].include?('end') }
 
     expect(end_routes.length).to eq 36
     end
   end
 
-  xcontext 'with second set of nodes' do
-    it 'returns 19 possible routes that lead to the end' do
+  context 'with second set of nodes' do
+    it 'returns 103 possible routes that lead to the end' do
       list = ['dc-end',
               'HN-start',
               'start-kj',
@@ -118,12 +117,12 @@ describe '#get_long_routes' do
 
       all_routes = get_long_routes(start_node, [])
       end_routes = all_routes.select { |route| route[1].include?('end') }
-      expect(end_routes.length).to eq 19
+      expect(end_routes.length).to eq 103
     end
   end
 
-  xcontext 'with third set of nodes' do
-    it 'returns 226 possible routes that lead to the end' do
+  context 'with third set of nodes' do
+    it 'returns 3509 possible routes that lead to the end' do
       list = ['fs-end',
               'he-DX',
               'fs-he',
@@ -148,7 +147,7 @@ describe '#get_long_routes' do
 
       all_routes = get_long_routes(start_node, [])
       end_routes = all_routes.select { |route| route[1].include?('end') }
-      expect(end_routes.length).to eq 226
+      expect(end_routes.length).to eq 3509
     end
   end
 

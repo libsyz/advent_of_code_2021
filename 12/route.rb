@@ -142,7 +142,7 @@ def get_routes(start, routes)
         next
       end
 
-      routes << [node, "#{first[1]}, #{node.name}" ]
+      routes << [node, "#{first[1]},#{node.name}" ]
 
       if node.name == 'end'
         next
@@ -154,7 +154,7 @@ def get_routes(start, routes)
         next
       end
 
-      queue << [node, "#{first[1]}, #{node.name} " ]
+      queue << [node, "#{first[1]},#{node.name}" ]
     end
   end
 
@@ -173,34 +173,40 @@ def get_long_routes(start, routes)
         next
       end
 
-      routes << [node, "#{first[1]}, #{node.name}" ]
-
+      routes << [node, "#{first[1]},#{node.name}" ]
+      visits = routes.last[1].split(',').select { |cave| cave == cave.downcase }.tally
+      # binding.pry
       # end node should not be added to the queue - not allowed to go back up
       if node.name == 'end'
         next
       end
 
-      # small, single caves should not be added if visited
-      if node.single? && routes.last[1].scan(node.name).size > 1
-        next
+      # only one small cave shall be visited twice
+      # right how do I do this
+      if visits.has_key?(node.name)
+        if visits[node.name] > 2
+          next
+        end
+
+        if visits[node.name] == 2 && visits.count { |_ , v| v == 2 } > 1
+          next
+        end
       end
 
       # small caves should not be added if visited twice
-      if node.name == node.name.downcase && routes.last[1].scan(node.name).size > 2
-        next
-      end
 
-      queue << [node, "#{first[1]}, #{node.name} " ]
+
+      queue << [node, "#{first[1]},#{node.name}" ]
     end
   end
 
   return routes
 end
 
-# nodes = NodeParser.new.generate(puzzle_input).nodes
-# binding.pry
-# start = nodes.find { |nd| nd.name == 'start' }
+nodes = NodeParser.new.generate(puzzle_input).nodes
 
-# routes = get_routes( start, [])
+start = nodes.find { |nd| nd.name == 'start' }
 
-# p routes.select { |route| route[1].include?('end') }.size
+routes = get_long_routes( start, [])
+
+p routes.select { |route| route[1].include?('end') }.size
