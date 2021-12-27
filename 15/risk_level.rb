@@ -45,8 +45,11 @@ def end_routes(pos,memo = {}, sum = 0)
   end
 
   if impossible?(pos)
-
     return Float::INFINITY
+  end
+
+  if memo.has_key?("#{row}-#{col}")
+    return sum + memo["#{row}-#{col}"]
   end
 
   # I am out of bounds
