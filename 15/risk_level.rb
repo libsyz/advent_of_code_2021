@@ -1,7 +1,7 @@
-require 'pry-byebug'
-@grid = [[1,1,1],
-         [2,3,1],
-         [2,3,1]]
+# require 'pry-byebug'
+# @grid = [[1,1,1],
+#          [2,3,1],
+#          [2,3,1]]
 
 
 @grid = [
@@ -19,30 +19,28 @@ require 'pry-byebug'
 
 
 def impossible?(pos)
-  x, y = pos
+  row, col = pos
 
-  return true if [x,y].any? do |coord|
-    coord > 9
+  return true if [row,col].any? do |coord|
+    coord >9
   end
 
   return false
 end
 
-def end_routes(pos, routes = [],sum = 0)
-  x, y = pos
-  return [] if impossible?(pos)
-
-  if pos == [9, 9]
-
-    routes.push(sum + @grid[9][9])
-    return routes
-  end
-
+def end_routes(pos, sum = 0)
   # binding.pry
-  p "x: #{x}, y: #{y}"
-  return end_routes([x + 1, y], routes, sum + @grid[x][y]).concat(end_routes([x, y + 1], routes, sum + @grid[x][y]))
+  row, col = pos
+
+  return sum + @grid[9][9] if pos == [9,9]
+  return Float::INFINITY if impossible?(pos)
+
+  # I am out of bounds
+
+  # otherwise, move down and right until you hit the base case
+  return [end_routes([row + 1, col], sum + @grid[row][col]), end_routes([row, col + 1], sum + @grid[row][col])].min
 
 end
 
 
-p end_routes([0, 0]).min
+p end_routes([0, 0]) - @grid[0][0]
