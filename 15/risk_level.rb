@@ -23,11 +23,13 @@ File.readlines('./input.txt').each do |line|
   @grid << line.chomp.split('').map(&:to_i)
 end
 
-# binding.pry
+
 
 
 def impossible?(pos, grid)
   row, col = pos
+  @max_row ||= grid.length - 1
+  @max_col ||= grid.first.length - 1
 
   return true if row > @max_row
   return true if col > @max_col
@@ -35,17 +37,20 @@ def impossible?(pos, grid)
   return false
 end
 
-def end_routes(pos, grid, memo = {})
+def end_routes(pos, grid, memo = {}, sum = 0)
   # binding.pry
   row, col = pos
+  @max_row ||= grid.length - 1
+  @max_col ||= grid.first.length - 1
 
   if pos == [@max_row, @max_col]
-    return @grid[@max_row][@max_col]
+    return grid[@max_row][@max_col]
   end
 
   if impossible?(pos, grid)
     return Float::INFINITY
   end
+
 
   if memo.has_key?("#{row}-#{col}")
     return memo["#{row}-#{col}"]
@@ -54,12 +59,12 @@ def end_routes(pos, grid, memo = {})
   # I am out of bounds
 
   # otherwise, move down and right until you hit the base case
-  go_down = end_routes([row + 1, col], memo, sum + @grid[row][col])
-  go_right = end_routes([row, col + 1], memo, sum + @grid[row][col])
+  go_down = end_routes([row + 1, col], grid, memo, sum + grid[row][col])
+  go_right = end_routes([row, col + 1], grid, memo, sum + grid[row][col])
 
-  memo["#{row}-#{col}"] = [go_down, go_right].min + @grid[row][col]
-  p memo if row == 0 and col == 0
-  return [go_down, go_right].min + @grid[row][col]
+  memo["#{row}-#{col}"] = [go_down, go_right].min + grid[row][col]
+  # binding.pry if row == 0 and col == 0
+  return [go_down, go_right].min + grid[row][col]
 end
 
 
@@ -88,10 +93,9 @@ def grid_generator(grid)
 end
 
 
-# @grid = grid_generator(@grid)
+@grid = grid_generator(@grid)
 
-# @max_row = @grid.length - 1
-# @max_col =  @grid.first.length - 1
 
-# binding.pry
-# p end_routes([0,0]) - @grid[0][0]
+
+
+end_routes([0,0], @grid) - @grid[0][0]
