@@ -17,10 +17,10 @@ require 'pry-byebug'
 #         [2,3,1,1,9,4,4,5,8,1]
 #       ]
 
-@grid = []
+input_grid = []
 
 File.readlines('./input.txt').each do |line|
-  @grid << line.chomp.split('').map(&:to_i)
+  input_grid << line.chomp.split('').map(&:to_i)
 end
 
 
@@ -93,9 +93,9 @@ def grid_generator(grid)
 end
 
 
-@grid = grid_generator(@grid)
+grid = grid_generator(input_grid)
 
 
 
 
-end_routes([0,0], @grid) - @grid[0][0]
+p end_routes([0,0], grid) - grid[0][0]

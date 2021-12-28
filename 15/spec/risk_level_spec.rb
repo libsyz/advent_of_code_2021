@@ -79,6 +79,20 @@ describe "#end routes" do
     end
   end
 
+  context "with grid that forces you to hinge backwards" do
+    it "returns the shortest path, 12" do
+      grid = [[1,1,1,1,1,9],
+              [9,9,9,9,1,9],
+              [9,9,9,1,1,9],
+              [9,9,9,1,9,9],
+              [9,9,9,1,1,9],
+              [9,9,9,9,1,1]]
+
+      shortest =  end_routes([0,0], grid)
+      expect(shortest - grid[0][0]).to eq(12)
+    end
+  end
+
 end
 
 describe "#grid_generator"  do
