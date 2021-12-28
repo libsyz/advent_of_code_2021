@@ -23,11 +23,10 @@ File.readlines('./input.txt').each do |line|
   @grid << line.chomp.split('').map(&:to_i)
 end
 
-binding.pry
-@max_row = @grid.length - 1
-@max_col =  @grid.first.length - 1
+# binding.pry
 
-def impossible?(pos)
+
+def impossible?(pos, grid)
   row, col = pos
 
   return true if row > @max_row
@@ -36,7 +35,7 @@ def impossible?(pos)
   return false
 end
 
-def end_routes(pos,memo = {}, sum = 0)
+def end_routes(pos, grid, memo = {})
   # binding.pry
   row, col = pos
 
@@ -44,7 +43,7 @@ def end_routes(pos,memo = {}, sum = 0)
     return @grid[@max_row][@max_col]
   end
 
-  if impossible?(pos)
+  if impossible?(pos, grid)
     return Float::INFINITY
   end
 
@@ -64,4 +63,35 @@ def end_routes(pos,memo = {}, sum = 0)
 end
 
 
-p end_routes([0, 0]) - @grid[0][0]
+def grid_generator(grid)
+  # modify all the rows in the grid
+  target = Array.new(grid.length) { [] }
+  5.times do |n|
+    grid.each_with_index do |row, idx|
+      row.each do |el|
+        value = (el + n > 9) ? (el + n - 9) : (el + n)
+        target[idx] << value
+      end
+    end
+  end
+
+  target_rows = []
+
+  (0..4).each do |n|
+    target.each do |row|
+      target_rows << row.map { |el| value = (el + n > 9) ? (el + n - 9) : (el + n) }
+    end
+  end
+
+
+  target_rows
+end
+
+
+# @grid = grid_generator(@grid)
+
+# @max_row = @grid.length - 1
+# @max_col =  @grid.first.length - 1
+
+# binding.pry
+# p end_routes([0,0]) - @grid[0][0]
