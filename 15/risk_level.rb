@@ -31,6 +31,8 @@ def impossible?(pos, grid)
   @max_row ||= grid.length - 1
   @max_col ||= grid.first.length - 1
 
+  return true if row.negative?
+  return true if col.negative?
   return true if row > @max_row
   return true if col > @max_col
 
@@ -111,10 +113,13 @@ def end_routes_hinge(pos, grid, memo = {}, sum = 0, coming_from = nil)
     return grid[@max_row][@max_col]
   end
 
-  go_down = came_from?( :up, pos, coming_from ) ? Float::INFINITY : end_routes_hinge([row + 1, col], grid, memo, sum + grid[row][col], pos)
-  go_up = came_from?( :down, pos, coming_from ) ? Float::INFINITY : end_routes_hinge([row - 1, col], grid, memo, sum + grid[row][col], pos)
-  go_left = came_from?(:right, pos, coming_from) ? Float::INFINITY : end_routes_hinge([row , col - 1], grid, memo, sum + grid[row][col], pos)
-  go_right = came_from?(:left, pos, coming_from) ? Float::INFINITY : end_routes_hinge([row, col + 1], grid, memo, sum + grid[row][col], pos)
+
+  # binding.pry
+  go_up = came_from?( :up, pos, coming_from ) ? Float::INFINITY : end_routes_hinge([row - 1, col], grid, memo, sum + grid[row][col], pos)
+  go_down = came_from?( :down, pos, coming_from ) ? Float::INFINITY : end_routes_hinge([row + 1, col], grid, memo, sum + grid[row][col], pos)
+  go_left = came_from?(:left, pos, coming_from) ? Float::INFINITY : end_routes_hinge([row , col - 1], grid, memo, sum + grid[row][col], pos)
+  go_right = came_from?(:right, pos, coming_from) ? Float::INFINITY : end_routes_hinge([row, col + 1], grid, memo, sum + grid[row][col], pos)
+
 
   return [go_down, go_right, go_left, go_up].min + grid[row][col]
 
