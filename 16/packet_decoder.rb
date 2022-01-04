@@ -30,9 +30,16 @@ def decode(hex)
   output[:type_id] = bin[3..5].to_i(2)
 
   if output[:type_id] != 4
-    output[:length_id] = bin[6].to_i
-    slices = bin[6] == '0' ? 15 : 11
-    output[:subpackets] = bin[7..-1].scan(/.{#{slices}}/).length - 1
+
+    output[:length_id] = bin[6]
+    if output[:length_id] == '0'
+
+      binding.pry
+      # get the bytes from 7..21
+      # start parsing packages
+      # how do I know if package has finished?
+    else
+    end
   end
 
   output
@@ -40,4 +47,22 @@ def decode(hex)
 
 
 
+end
+
+
+def binary_representation(literal)
+  rep = literal[6..-1]
+  values = ''
+
+  loop do
+    group = rep.slice!(0..4)
+    if group[0] == '1'
+      values += group[1..-1]
+    else # reached the end
+      values += group[1..-1]
+      break
+    end
+  end
+
+  values
 end
