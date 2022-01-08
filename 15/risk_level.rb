@@ -76,6 +76,18 @@ def dijsktra(grid)
   distance_arr = Array.new(3) { Array.new(3) { Float::INFINITY } }
   start_node = distance_arr[0][0]
   start_node = 0
+
+
+  # maintain a priority queue of key value pairs that which tell you which node
+  # to visit based on sorted minimum value
+  queue = []
+  queue << start_node
+  # insert {s: 0} in the priority queue
+  until queue.empty?
+    # iterate through all the edges outwards from the priority queue
+    # and relax the node appending a new key value pair to the queue
+  end
+
 end
 
 
@@ -104,6 +116,45 @@ def grid_generator(grid)
   target_rows
 end
 
+def get_adjacents(grid_array, row_idx, col_idx)
+
+  up = if row_idx - 1 >= 0
+      [ ((row_idx - 1) * 3) + col_idx , grid_array[row_idx - 1][col_idx] ]
+    else
+      nil
+  end
+
+  down = if grid_array[row_idx + 1]
+      [ ((row_idx + 1) * 3) + col_idx , grid_array[row_idx + 1][col_idx] ]
+    else
+      nil
+  end
+
+  right = if grid_array[row_idx][col_idx + 1]
+      [ (row_idx * 3) + (col_idx + 1) , grid_array[row_idx][col_idx + 1]]
+    else
+    nil
+  end
+
+  left = if col_idx - 1 >= 0
+      [ (row_idx * 3) + (col_idx - 1) , grid_array[row_idx][col_idx - 1] ]
+    else
+    nil
+  end
+
+  [left, right, up, down].compact.empty? ? nil : [left, right, up, down].compact
+end
+
+def graph_generator(grid_array)
+  graph = {}
+  grid_array.each_with_index do |row, row_idx|
+    row.each_with_index do |col, col_idx|
+
+      graph[(row_idx * 3) + col_idx] = get_adjacents(grid_array, row_idx, col_idx)
+    end
+  end
+  graph
+end
 
 # grid = grid_generator(input_grid)
 

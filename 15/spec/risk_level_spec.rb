@@ -186,8 +186,36 @@ describe "#grid_generator"  do
   end
 end
 
+describe "#graph_generator" do
+  context "with a simple grid" do
+    it "generates a hashmap that references the nodes and the edges" do
+      graph_arr = [[1,1,9],
+                   [9,1,9],
+                   [9,1,1]]
 
-describe "#end_routes_hinge" do
+      graph = graph_generator(graph_arr)
+      res = {
+        0 => [ [1, 1], [3, 9]],
+        1 =>  [[0, 1], [2, 9], [4, 1]],
+        2 => [ [1, 1], [5, 9]],
+        3 => [ [0, 1], [4, 1], [6,9]],
+        4 => [ [3,9], [1, 1], [5, 9], [7, 1]],
+        5 => [ [4,1], [2,9], [8, 1]],
+        6 => [ [3, 9], [7,1]],
+        7 => [ [6, 9], [4, 1], [8, 1]],
+        8 => [ [7, 1], [5,9]]
+      }
+
+      graph.each_pair do |key, value|
+        expect(graph[key].sort).to eq(res[key].sort)
+      end
+    end
+  end
+end
+
+
+
+xdescribe "#end_routes_hinge" do
   # to do - write test for this method
   xcontext "with basic AoC sample grid" do
     it "returns the shortest path, 40" do
