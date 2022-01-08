@@ -70,61 +70,14 @@ def end_routes(pos, grid, memo = {}, sum = 0)
 end
 
 
-def came_from?(direction, pos, coming_from = nil)
-  return false if coming_from.nil?
-
-  row, col = pos
-
-  if direction == :right
-    return true if col + 1 == coming_from[1]
-  end
-
-  if direction == :left
-    return true if col - 1 == coming_from[1]
-  end
-
-  if direction == :up
-    return true if row - 1 == coming_from[0]
-  end
-
-  if direction == :down
-    return true if row + 1 == coming_from[0]
-  end
-
-  return false
-
-
-
+def dijsktra(grid)
+  # maintain a distance_arr where the distance to every node is infinity
+  # mark the distance to the start_node to be 0
+  distance_arr = Array.new(3) { Array.new(3) { Float::INFINITY } }
+  start_node = distance_arr[0][0]
+  start_node = 0
 end
 
-def end_routes_hinge(pos, grid, memo = {}, sum = 0, coming_from = nil)
-  # binding.pry
-  row, col = pos
-  @max_row ||= grid.length - 1
-  @max_col ||= grid.first.length - 1
-
-  if impossible?(pos, grid)
-    return Float::INFINITY
-  end
-  # my base cases
-
-
-  if pos == [@max_row, @max_col]
-    return grid[@max_row][@max_col]
-  end
-
-
-  # binding.pry
-  go_up = came_from?( :up, pos, coming_from ) ? Float::INFINITY : end_routes_hinge([row - 1, col], grid, memo, sum + grid[row][col], pos)
-  go_down = came_from?( :down, pos, coming_from ) ? Float::INFINITY : end_routes_hinge([row + 1, col], grid, memo, sum + grid[row][col], pos)
-  go_left = came_from?(:left, pos, coming_from) ? Float::INFINITY : end_routes_hinge([row , col - 1], grid, memo, sum + grid[row][col], pos)
-  go_right = came_from?(:right, pos, coming_from) ? Float::INFINITY : end_routes_hinge([row, col + 1], grid, memo, sum + grid[row][col], pos)
-
-
-  return [go_down, go_right, go_left, go_up].min + grid[row][col]
-
-
-end
 
 
 def grid_generator(grid)
