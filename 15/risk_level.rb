@@ -70,21 +70,31 @@ def end_routes(pos, grid, memo = {}, sum = 0)
 end
 
 
-def dijsktra(grid)
+def dijsktra(graph)
   # maintain a distance_arr where the distance to every node is infinity
   # mark the distance to the start_node to be 0
-  distance_arr = Array.new(3) { Array.new(3) { Float::INFINITY } }
-  start_node = distance_arr[0][0]
-  start_node = 0
 
-
+  distance_arr = graph.keys.map { Float::INFINITY }
+  start_node = distance_arr[0]
+  dist_to_current_node = distance_arr[0]
   # maintain a priority queue of key value pairs that which tell you which node
   # to visit based on sorted minimum value
   queue = []
-  queue << start_node
+  visited = []
   # insert {s: 0} in the priority queue
+  current_node = 0
   until queue.empty?
+    distances = []
+    visited << current_node
     # iterate through all the edges outwards from the priority queue
+    graph[current_node].each do |(node, distance)|
+      distance_arr[node] = distance
+      distances << [node, distance]
+    end
+      # whaaat why is this so hard
+      # to relax the node means to choose the minimum value already?
+      queue << graph[edge[0]]
+    end
     # and relax the node appending a new key value pair to the queue
   end
 
@@ -149,7 +159,6 @@ def graph_generator(grid_array)
   graph = {}
   grid_array.each_with_index do |row, row_idx|
     row.each_with_index do |col, col_idx|
-
       graph[(row_idx * 3) + col_idx] = get_adjacents(grid_array, row_idx, col_idx)
     end
   end
