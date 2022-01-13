@@ -161,7 +161,7 @@ def polymerize!(string, steps: 1)
         increase = state_hash[key]
         letters_hash[new_letter] += increase
         step_state[new_key_behind] += increase
-        step_state[new  ∑œœ_key_after] += increase
+        step_state[new_key_after] += increase
         step_state[key] -= increase
     end
     step_state.keys.each do |key|
