@@ -1,27 +1,27 @@
 require 'pry-byebug'
-# @grid = [[1,1,1],
-#          [2,3,1],
-#          [2,3,1]]
+# # @grid = [[1,1,1],
+# #          [2,3,1],
+# #          [2,3,1]]
 
 
-# @grid = [
-#         [1,1,6,3,7,5,1,7,4,2],
-#         [1,3,8,1,3,7,3,6,7,2],
-#         [2,1,3,6,5,1,1,3,2,8],
-#         [3,6,9,4,9,3,1,5,6,9],
-#         [7,4,6,3,4,1,7,1,1,1],
-#         [1,3,1,9,1,2,8,1,3,7],
-#         [1,3,5,9,9,1,2,4,2,1],
-#         [3,1,2,5,4,2,1,6,3,9],
-#         [1,2,9,3,1,3,8,5,2,1],
-#         [2,3,1,1,9,4,4,5,8,1]
-#       ]
+# # @grid = [
+# #         [1,1,6,3,7,5,1,7,4,2],
+# #         [1,3,8,1,3,7,3,6,7,2],
+# #         [2,1,3,6,5,1,1,3,2,8],
+# #         [3,6,9,4,9,3,1,5,6,9],
+# #         [7,4,6,3,4,1,7,1,1,1],
+# #         [1,3,1,9,1,2,8,1,3,7],
+# #         [1,3,5,9,9,1,2,4,2,1],
+# #         [3,1,2,5,4,2,1,6,3,9],
+# #         [1,2,9,3,1,3,8,5,2,1],
+# #         [2,3,1,1,9,4,4,5,8,1]
+# #       ]
 
-input_grid = []
+# input_grid = []
 
-File.readlines('./input.txt').each do |line|
-  input_grid << line.chomp.split('').map(&:to_i)
-end
+# File.readlines('./input.txt').each do |line|
+#   input_grid << line.chomp.split('').map(&:to_i)
+# end
 
 
 
@@ -111,8 +111,8 @@ def dijsktra(table)
 end
 
 
-
 def grid_generator(grid)
+  binding.pry
   # modify all the rows in the grid
   target = Array.new(grid.length) { [] }
   5.times do |n|
@@ -167,17 +167,21 @@ end
 
 def graph_generator(grid_array)
   graph = {}
+  counter = 0
   grid_array.each_with_index do |row, row_idx|
     row.each_with_index do |col, col_idx|
+      counter += 1
       graph[(row_idx * 3) + col_idx] = get_adjacents(grid_array, row_idx, col_idx)
     end
   end
+  p counter
   graph
 end
 
 # grid = grid_generator(input_grid)
 
+binding.pry
 
-p dijsktra(4)
+p dijsktra(10)
 
 # p end_routes([0,0], grid) - grid[0][0]
