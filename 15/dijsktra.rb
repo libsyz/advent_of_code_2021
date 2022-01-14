@@ -1,5 +1,5 @@
 
-
+require 'pry-byebug'
 
 graph = {
   #node => [ node, distance ]
@@ -11,3 +11,29 @@ graph = {
   5 => [ [3, 15], [4, 6],[6, 6] ],
   6 => [ [4, 2], [5, 6]]
 }
+
+
+distances = graph.keys.map { Float::INFINITY }
+distances[0] = 0
+               # node
+                  # distance to node
+prio_queue = [[0, 0]]
+visited = []
+
+until prio_queue.empty?
+    # sleep 1
+    current_node = prio_queue.min { |(node, distance)| distance }
+    prio_queue.delete(next_node)
+    p prio_queue
+    visited << current_node[0]
+    adjacents = graph[current_node[0]]
+    adjacents.each do |(node, distance)|
+      unless visited.include?(node)
+        binding.pry
+        distances[node] = distance + current_node[1]
+        prio_queue << [ node, distances[node] ]
+      end
+    end
+end
+
+p distances
