@@ -35,7 +35,6 @@ def impossible?(pos, grid)
   return true if col.negative?
   return true if row > @max_row
   return true if col > @max_col
-
   return false
 end
 
@@ -91,6 +90,8 @@ def dijsktra(graph)
       distance_arr[node] = distance
       distances << [node, distance]
     end
+
+
       # whaaat why is this so hard
       # to relax the node means to choose the minimum value already?
       queue << graph[edge[0]]
