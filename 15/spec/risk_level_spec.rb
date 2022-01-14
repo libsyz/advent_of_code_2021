@@ -16,7 +16,7 @@ describe "#dijsktra" do
               [1,2,9,3,1,3,8,5,2,1],
               [2,3,1,1,9,4,4,5,8,1] ]
 
-      result = end_routes([0,0], grid) - grid[0][0]
+      result = dijsktra(grid)
       expect(result).to eq(40)
     end
   end
@@ -75,24 +75,22 @@ describe "#dijsktra" do
       [5,6,4,7,5,7,3,9,6,5,6,7,5,8,6,8,4,1,7,6,7,8,6,9,7,9,5,2,8,7,8,9,7,1,8,1,6,3,9,8,9,1,8,2,9,2,7,4,1,9],
       [6,7,5,5,4,8,8,9,3,5,7,8,6,6,5,9,9,1,4,6,8,9,7,7,6,1,1,2,5,7,9,1,8,8,7,2,2,3,6,8,1,2,9,9,8,3,3,4,7,9]]
 
-      shortest =  end_routes([0,0], target)
-      expect(shortest - target[0][0]).to eq(315)
+      shortest =  dijsktra(target)
+      expect(shortest).to eq(315)
     end
   end
 
   context "with grid that forces you to hinge backwards" do
     it "returns the shortest path, 12" do
-              #0 1 2 3 4 5
+
       grid = [[1,1,1,1,1,9],
-      #       #6 7 8 9 10 11
               [9,9,9,9,1,9],
-              #12 13 14 15 16
               [9,9,9,1,1,9],
               [9,9,9,1,9,9],
               [9,9,9,1,1,9],
               [9,9,9,9,1,1]]
 
-      shortest = dijsktra(graph_generator(grid))
+      shortest = dijsktra(grid)
 
       expect(shortest).to eq(12)
     end
@@ -100,8 +98,8 @@ describe "#dijsktra" do
 
 end
 
-xdescribe "#grid_generator"  do
-  xcontext "with basic grid" do
+describe "#grid_generator"  do
+  context "with basic grid" do
     it "returns a new expanded grid" do
 
 
@@ -117,7 +115,7 @@ xdescribe "#grid_generator"  do
     end
   end
 
-  xcontext "with the basic AoC examples" do
+  context "with the basic AoC examples" do
     it "returns a new expanded grid" do
       grid = [
         [1,1,6,3,7,5,1,7,4,2],
@@ -219,9 +217,9 @@ end
 
 
 
-xdescribe "#end_routes_hinge" do
+describe "#end_routes_hinge" do
   # to do - write test for this method
-  xcontext "with basic AoC sample grid" do
+  context "with basic AoC sample grid" do
     it "returns the shortest path, 40" do
      grid = [ [1,1,6,3,7,5,1,7,4,2],
               [1,3,8,1,3,7,3,6,7,2],
@@ -234,7 +232,7 @@ xdescribe "#end_routes_hinge" do
               [1,2,9,3,1,3,8,5,2,1],
               [2,3,1,1,9,4,4,5,8,1] ]
 
-      result = end_routes_hinge([0,0], grid) - grid[0][0]
+      result = dijsktra(grid)
       expect(result).to eq(40)
     end
   end
@@ -307,8 +305,8 @@ xdescribe "#end_routes_hinge" do
               [9,9,9,1,1,9],
               [9,9,9,9,1,1]]
 
-      shortest =  end_routes_hinge([0,0], grid)
-      expect(shortest - grid[0][0]).to eq(12)
+      shortest =  dijsktra(grid)
+      expect(shortest).to eq(12)
     end
   end
 

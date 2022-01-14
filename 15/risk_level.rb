@@ -69,10 +69,10 @@ def end_routes(pos, grid, memo = {}, sum = 0)
 end
 
 
-def dijsktra(graph)
+def dijsktra(table)
   # maintain a distance_arr where the distance to every node is infinity
   # mark the distance to the start_node to be 0
-
+  graph = graph_generator(table)
   # graph = graph_generator(res)
   #binding.pry
   distances = graph.keys.map { Float::INFINITY }
@@ -84,7 +84,6 @@ def dijsktra(graph)
 
   until prio_queue.empty?
       # sleep 1
-      p prio_queue
       current_node = prio_queue.min_by { |(node, distance)| distance }
       # binding.pry
       prio_queue.delete(current_node)
