@@ -17,11 +17,11 @@ require 'pry-byebug'
 # #         [2,3,1,1,9,4,4,5,8,1]
 # #       ]
 
-# input_grid = []
+input_grid = []
 
-# File.readlines('./input.txt').each do |line|
-#   input_grid << line.chomp.split('').map(&:to_i)
-# end
+File.readlines('./input.txt').each do |line|
+  input_grid << line.chomp.split('').map(&:to_i)
+end
 
 
 
@@ -85,6 +85,7 @@ def dijsktra(table)
   until prio_queue.empty?
       # sleep 1
       current_node = prio_queue.min_by { |(node, distance)| distance }
+      p current_node
       # binding.pry
       prio_queue.delete(current_node)
 
@@ -165,7 +166,6 @@ def graph_generator(grid_array)
       graph[(row_idx * size) + col_idx] = get_adjacents(grid_array, row_idx, col_idx)
     end
   end
-  p counter
   graph
 end
 
@@ -173,5 +173,6 @@ end
 
 
 
-
-# p end_routes([0,0], grid) - grid[0][0]
+super_grid = grid_generator(input_grid)
+binding.pry
+p dijsktra(super_grid)

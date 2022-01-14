@@ -216,8 +216,7 @@ describe "#graph_generator" do
 end
 
 
-
-describe "#end_routes_hinge" do
+describe "#dijsktra" do
   # to do - write test for this method
   context "with basic AoC sample grid" do
     it "returns the shortest path, 40" do
@@ -237,7 +236,7 @@ describe "#end_routes_hinge" do
     end
   end
 
-  xcontext "with expanded AoC sample grid" do
+  context "with expanded AoC sample grid" do
     it "returns the shortest path, 315" do
             target =
      [[1,1,6,3,7,5,1,7,4,2,2,2,7,4,8,6,2,8,5,3,3,3,8,5,9,7,3,9,6,4,4,4,9,6,1,8,4,1,7,5,5,5,1,7,2,9,5,2,8,6],
