@@ -1,7 +1,7 @@
 require 'rspec'
 require '../risk_level.rb'
 
-describe "#end_routes" do
+describe "#dijsktra" do
   # to do - write test for this method
   context "with basic AoC sample grid" do
     it "returns the shortest path, 40" do
@@ -82,14 +82,18 @@ describe "#end_routes" do
 
   context "with grid that forces you to hinge backwards" do
     it "returns the shortest path, 12" do
+              #0 1 2 3 4 5
       grid = [[1,1,1,1,1,9],
+      #       #6 7 8 9 10 11
               [9,9,9,9,1,9],
+              #12 13 14 15 16
               [9,9,9,1,1,9],
               [9,9,9,1,9,9],
               [9,9,9,1,1,9],
               [9,9,9,9,1,1]]
 
-      shortest =  dijsktra(grid)
+      shortest = dijsktra(graph_generator(grid))
+
       expect(shortest).to eq(12)
     end
   end

@@ -69,20 +69,10 @@ def end_routes(pos, grid, memo = {}, sum = 0)
 end
 
 
-def dijsktra(table)
+def dijsktra(graph)
   # maintain a distance_arr where the distance to every node is infinity
   # mark the distance to the start_node to be 0
-    graph = {
-        0 => [ [1, 1], [3, 9]],
-        1 =>  [[0, 1], [2, 9], [4, 1]],
-        2 => [ [1, 1], [5, 9]],
-        3 => [ [0, 1], [4, 1], [6,9]],
-        4 => [ [3,9], [1, 1], [5, 9], [7, 1]],
-        5 => [ [4,1], [2,9], [8, 1]],
-        6 => [ [3, 9], [7,1]],
-        7 => [ [6, 9], [4, 1], [8, 1]],
-        8 => [ [7, 1], [5,9]]
-      }
+
   # graph = graph_generator(res)
   #binding.pry
   distances = graph.keys.map { Float::INFINITY }
@@ -94,9 +84,11 @@ def dijsktra(table)
 
   until prio_queue.empty?
       # sleep 1
-      current_node = prio_queue.min { |(node, distance)| distance }
-      prio_queue.delete(current_node  )
       p prio_queue
+      current_node = prio_queue.min_by { |(node, distance)| distance }
+      # binding.pry
+      prio_queue.delete(current_node)
+
       visited << current_node[0]
       adjacents = graph[current_node[0]]
       adjacents.each do |(node, distance)|
@@ -106,13 +98,12 @@ def dijsktra(table)
         end
       end
   end
-  binding.pry
   distances.last
 end
 
 
 def grid_generator(grid)
-  binding.pry
+
   # modify all the rows in the grid
   target = Array.new(grid.length) { [] }
   5.times do |n|
@@ -137,27 +128,27 @@ def grid_generator(grid)
 end
 
 def get_adjacents(grid_array, row_idx, col_idx)
-
+  size = grid_array.length
   up = if row_idx - 1 >= 0
-      [ ((row_idx - 1) * 3) + col_idx , grid_array[row_idx - 1][col_idx] ]
+      [ ((row_idx - 1) * size) + col_idx , grid_array[row_idx - 1][col_idx] ]
     else
       nil
   end
 
   down = if grid_array[row_idx + 1]
-      [ ((row_idx + 1) * 3) + col_idx , grid_array[row_idx + 1][col_idx] ]
+      [ ((row_idx + 1) * size) + col_idx , grid_array[row_idx + 1][col_idx] ]
     else
       nil
   end
 
   right = if grid_array[row_idx][col_idx + 1]
-      [ (row_idx * 3) + (col_idx + 1) , grid_array[row_idx][col_idx + 1]]
+      [ (row_idx * size) + (col_idx + 1) , grid_array[row_idx][col_idx + 1]]
     else
     nil
   end
 
   left = if col_idx - 1 >= 0
-      [ (row_idx * 3) + (col_idx - 1) , grid_array[row_idx][col_idx - 1] ]
+      [ (row_idx * size) + (col_idx - 1) , grid_array[row_idx][col_idx - 1] ]
     else
     nil
   end
@@ -168,10 +159,11 @@ end
 def graph_generator(grid_array)
   graph = {}
   counter = 0
+  size = grid_array.length
   grid_array.each_with_index do |row, row_idx|
     row.each_with_index do |col, col_idx|
       counter += 1
-      graph[(row_idx * 3) + col_idx] = get_adjacents(grid_array, row_idx, col_idx)
+      graph[(row_idx * size) + col_idx] = get_adjacents(grid_array, row_idx, col_idx)
     end
   end
   p counter
@@ -180,8 +172,7 @@ end
 
 # grid = grid_generator(input_grid)
 
-binding.pry
 
-p dijsktra(10)
+
 
 # p end_routes([0,0], grid) - grid[0][0]
