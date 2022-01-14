@@ -21,7 +21,7 @@ describe "#end_routes" do
     end
   end
 
-  xcontext "with expanded AoC sample grid" do
+  context "with expanded AoC sample grid" do
     it "returns the shortest path, 315" do
             target =
      [[1,1,6,3,7,5,1,7,4,2,2,2,7,4,8,6,2,8,5,3,3,3,8,5,9,7,3,9,6,4,4,4,9,6,1,8,4,1,7,5,5,5,1,7,2,9,5,2,8,6],
@@ -80,7 +80,7 @@ describe "#end_routes" do
     end
   end
 
-  xcontext "with grid that forces you to hinge backwards" do
+  context "with grid that forces you to hinge backwards" do
     it "returns the shortest path, 12" do
       grid = [[1,1,1,1,1,9],
               [9,9,9,9,1,9],
@@ -89,14 +89,14 @@ describe "#end_routes" do
               [9,9,9,1,1,9],
               [9,9,9,9,1,1]]
 
-      shortest =  end_routes([0,0], grid)
-      expect(shortest - grid[0][0]).to eq(12)
+      shortest =  dijsktra(grid)
+      expect(shortest).to eq(12)
     end
   end
 
 end
 
-describe "#grid_generator"  do
+xdescribe "#grid_generator"  do
   xcontext "with basic grid" do
     it "returns a new expanded grid" do
 

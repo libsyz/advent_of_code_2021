@@ -69,36 +69,45 @@ def end_routes(pos, grid, memo = {}, sum = 0)
 end
 
 
-def dijsktra(graph)
+def dijsktra(table)
   # maintain a distance_arr where the distance to every node is infinity
   # mark the distance to the start_node to be 0
-
-  distance_arr = graph.keys.map { Float::INFINITY }
-  start_node = distance_arr[0]
-  dist_to_current_node = distance_arr[0]
-  # maintain a priority queue of key value pairs that which tell you which node
-  # to visit based on sorted minimum value
-  queue = []
+    graph = {
+        0 => [ [1, 1], [3, 9]],
+        1 =>  [[0, 1], [2, 9], [4, 1]],
+        2 => [ [1, 1], [5, 9]],
+        3 => [ [0, 1], [4, 1], [6,9]],
+        4 => [ [3,9], [1, 1], [5, 9], [7, 1]],
+        5 => [ [4,1], [2,9], [8, 1]],
+        6 => [ [3, 9], [7,1]],
+        7 => [ [6, 9], [4, 1], [8, 1]],
+        8 => [ [7, 1], [5,9]]
+      }
+  # graph = graph_generator(res)
+  #binding.pry
+  distances = graph.keys.map { Float::INFINITY }
+  distances[0] = 0
+               # node
+                  # distance to node
+  prio_queue = [[0, 0]]
   visited = []
-  # insert {s: 0} in the priority queue
-  current_node = 0
-  until queue.empty?
-    distances = []
-    visited << current_node
-    # iterate through all the edges outwards from the priority queue
-    graph[current_node].each do |(node, distance)|
-      distance_arr[node] = distance
-      distances << [node, distance]
-    end
 
-
-      # whaaat why is this so hard
-      # to relax the node means to choose the minimum value already?
-      queue << graph[edge[0]]
-    end
-    # and relax the node appending a new key value pair to the queue
+  until prio_queue.empty?
+      # sleep 1
+      current_node = prio_queue.min { |(node, distance)| distance }
+      prio_queue.delete(current_node  )
+      p prio_queue
+      visited << current_node[0]
+      adjacents = graph[current_node[0]]
+      adjacents.each do |(node, distance)|
+        unless visited.include?(node)
+          distances[node] = distance + current_node[1] if (distance + current_node[1]) <= distances[node]
+          prio_queue << [ node, distances[node] ]
+        end
+      end
   end
-
+  binding.pry
+  distances.last
 end
 
 
@@ -169,6 +178,6 @@ end
 # grid = grid_generator(input_grid)
 
 
-
+p dijsktra(4)
 
 # p end_routes([0,0], grid) - grid[0][0]

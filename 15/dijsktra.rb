@@ -34,5 +34,3 @@ until prio_queue.empty?
       end
     end
 end
-
-p distances
