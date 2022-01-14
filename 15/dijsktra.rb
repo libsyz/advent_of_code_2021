@@ -23,14 +23,13 @@ visited = []
 until prio_queue.empty?
     # sleep 1
     current_node = prio_queue.min { |(node, distance)| distance }
-    prio_queue.delete(next_node)
+    prio_queue.delete(current_node  )
     p prio_queue
     visited << current_node[0]
     adjacents = graph[current_node[0]]
     adjacents.each do |(node, distance)|
       unless visited.include?(node)
-        binding.pry
-        distances[node] = distance + current_node[1]
+        distances[node] = distance + current_node[1] if (distance + current_node[1]) <= distances[node]
         prio_queue << [ node, distances[node] ]
       end
     end
