@@ -1,47 +1,37 @@
 require_relative './x_velocity.rb'
 require 'pry-byebug'
 
-def terminating_conditions(positions, x_range, y_range)
-  # this might be a very stupid approach
-  # knowing that your y is 0, what is the max x you can reach before your beacons y becomes negative?
-  if positions.length > 2
-    last_two = positions.last(2)
-    if positions.all?
-    end
-  end
-end
-
-def run_simulation(x, y)
-  positions = []
-  until terminating_conditions(positions)
-    positions << [x, y]
-    x -= 1 unless x.zero?
-    y -= 1
-  end
-end
 
 def trick_shot(x_range:, y_range:)
   target_missed = false
   target_reached = false
-  # First goal
-     # find what is the max x I need to reach
-  # speed
 
-
-
+  x_velocity, _ = x_velocity(x_range.max)
   max_y_reached = 0
-  x_velocity = x_velocity(x_range.max)
-  y_velocity = 0
-  coords = get_coords(x_velocity, y_velocity)
-  until target_missed
-    positions = get_positions(x)
-  # increase the x, y
-  # this probably can be solved with a smart formula
-  # but I don't know math
-  # so I need some sort of brute force approach
+  # in the example, now I have 7
+  throw_arc, y_velocity = get_arc(x_velocity, max_y_reached)
 
-  # I guess the first thing I want to do is start approximating boundaries
+  # did the arc end below the box
+  until target_missed
+    if within_bounds?(throw_arc, x_range, y_range)
+      max_y_reached = max_y_reached
+    end
+
+    if above_bounds?(throw_arc, x_range, y_range)
+      fall = get_fall(throw_arc, y_velocity)
+      target_missed = true if fall.none? { |point| y_range.include?(point) }
+    end
+
+    max_y_reached += 1
+    throw_arc, y_velocity = get_arc(x_velocity, y_velocity)
   end
+    # did any of the coords hit the box
+
+  # did the arc end above the box
+    # project the fall
+    # update the y if it hits
+
+
 
 end
 
