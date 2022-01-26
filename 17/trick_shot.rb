@@ -1,39 +1,32 @@
-require_relative './x_velocity.rb'
+
 require 'pry-byebug'
 
+def simulate(x_range, y_range)
+  hits = 0
 
-def trick_shot(x_range:, y_range:)
-  target_missed = false
-  target_reached = false
+  (1..30).each do |initial_x_speed|
+    (-12..9).each do |initial_y_speed|
+      y_pos = 0
+      x_pos = 0
+      # p [initial_x_speed, initial_y_speed]
+      x_speed = initial_x_speed
+      y_speed = initial_y_speed
+      until y_pos < y_range.min
 
-  x_velocity, _ = x_velocity(x_range.max)
-  max_y_reached = 0
-  # in the example, now I have 7
-  throw_arc, y_velocity = get_arc(x_velocity, max_y_reached)
+        x_pos += x_speed
+        y_pos += y_speed
 
-  # did the arc end below the box
-  until target_missed
-    if within_bounds?(throw_arc, x_range, y_range)
-      max_y_reached = max_y_reached
+        if x_range === x_pos && y_range === y_pos
+          hits += 1
+          break
+        end
+        x_speed -= 1 unless x_speed.zero?
+        y_speed -= 1
+      end
     end
-
-    if above_bounds?(throw_arc, x_range, y_range)
-      fall = get_fall(throw_arc, y_velocity)
-      target_missed = true if fall.none? { |point| y_range.include?(point) }
-    end
-
-    max_y_reached += 1
-    throw_arc, y_velocity = get_arc(x_velocity, y_velocity)
   end
-    # did any of the coords hit the box
 
-  # did the arc end above the box
-    # project the fall
-    # update the y if it hits
-
-
-
+  hits
 end
 
-
-trick_shot(x_range: (20..30), y_range: (-10..-5))
+p  simulate(20..30, -10..-5)
