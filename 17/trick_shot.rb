@@ -4,8 +4,8 @@ require 'pry-byebug'
 def simulate(x_range, y_range)
   hits = 0
 
-  (1..30).each do |initial_x_speed|
-    (-12..9).each do |initial_y_speed|
+  (1..202).each do |initial_x_speed|
+    (-115..210).each do |initial_y_speed|
       y_pos = 0
       x_pos = 0
       # p [initial_x_speed, initial_y_speed]
@@ -29,4 +29,6 @@ def simulate(x_range, y_range)
   hits
 end
 
-p  simulate(20..30, -10..-5)
+  # x=156..202, y=-110..-69
+
+p  simulate(156..202, -110..-69)
