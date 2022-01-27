@@ -13,3 +13,13 @@ describe '#snail_add' do
     end
   end
 end
+
+describe "#explode" do
+  context 'with an explodable element at the beginning of the array' do
+    let(:arr) { [[[[[9,8],1],2],3],4] }
+    it 'explodes properly' do
+      res = explode(arr)
+      expect(res).to eq([[[[0,9],2],3],4])
+    end
+  end
+end
