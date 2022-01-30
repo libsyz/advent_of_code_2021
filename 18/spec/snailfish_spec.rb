@@ -38,4 +38,13 @@ describe "#explode" do
       expect(res).to eq([[3,[2,[8,0]]],[9,[5,[7,0]]]])
     end
   end
+
+  context "with an element that needs to explode both left and right" do
+    let(:arr) { [[6,[5,[4,[3,2]]]],1] }
+    it 'explodes properly' do
+      res = explode(arr, 0)
+      expect(res).to eq([[6,[5,[7,0]]],3])
+    end
+  end
+
 end

@@ -11,18 +11,28 @@ def explode(pair, nest)
   # binding.pry
   return pair if pair.is_a? Integer
 
+  if nest == 1
+
+  end
+
+  if nest == 2
+
+  end
+
   if nest == 3
     if pair[1].is_a? Array
-      return [pair[0] + pair[1][0], explode(pair[1], nest + 1)]
+      value, data = explode(pair[1], nest + 1)
+      return [pair[0] + data[:left], value]
     end
 
     if pair[0].is_a? Array
-      return [explode(pair[0], nest + 1), pair[1] + pair[0][1] ]
+      value, data = explode(pair[0], nest + 1)
+      return [value , pair[1] + data[:right]]
     end
   end
 
   if nest == 4
-    return 0
+    return [0, {left: pair[0], right: pair[1] } ]
   end
 
 
