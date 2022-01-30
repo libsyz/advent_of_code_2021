@@ -5,33 +5,26 @@ def snail_add(first, second)
 end
 
 
-def explode(arr)
+def explode(arr, nest)
+  # binding.pry
   # how can I know if something has been nested 4 times?
   arr.each_with_index do |el, idx|
-    nesting = 0
-    until el.class == Integer
-      el ? ( el = el[0] ) : ( el = arr[0] )
-      nesting += 1
+    # do I have a pair?
+    if el.is_a?(Array)
+      swap = explode(el, nest + 1)
+
+      arr[idx] = swap[0] if (nest + 1) == 4
     end
 
-    if nesting == 4
-      # binding.pry
-      p "explodable found at idx #{idx}"
-      left, right = arr[idx][0][0][0]
-      arr[idx][0][0][0] = 0
-      binding.pry
-      if !idx.zero? && arr[idx - 1] && arr[idx - 1].is_a?(Integer)
-        arr[idx - 1] += left
-      end
-
-      arr[idx][0][0][1] += right
+    if nest == 4
+      return [0, arr[0], arr[1]]
     end
   end
+
 
   arr
 end
 
-# explode([[[[[9,8],1],2],3],4])
-#=> [[[[0,9],2],3],4]
+ p explode([7,[6,[5,[4,[3,2]]]]], 0)
 
-# p explode()
+ p explode([[[[[9,8],1],2],3],4], 0)
