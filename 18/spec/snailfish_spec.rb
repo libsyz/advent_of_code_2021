@@ -15,10 +15,10 @@ describe '#snail_add' do
 end
 
 describe "#explode" do
-  xcontext 'with an explodable element at the beginning of the array' do
+  context 'with an explodable element at the beginning of the array' do
     let(:arr) { [[[[[9,8],1],2],3],4] }
-    xit 'explodes properly' do
-      res = explode(arr)
+    it 'explodes properly' do
+      res = explode(arr, 0)
       expect(res).to eq([[[[0,9],2],3],4])
     end
   end
@@ -26,7 +26,7 @@ describe "#explode" do
   context 'with an explodable element at the end of the array' do
     let(:arr) { [7,[6,[5,[4,[3,2]]]]] }
     it 'explodes properly' do
-      res = explode(arr)
+      res = explode(arr, 0)
       expect(res).to eq([7,[6,[5,[7,0]]]])
     end
   end
