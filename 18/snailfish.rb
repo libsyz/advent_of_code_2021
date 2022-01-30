@@ -9,32 +9,45 @@ def explode(pair, nest)
   # how can I know if something has been nested 4 times?
 
   # binding.pry
-  return pair if pair.is_a? Integer
+  # binding.pry
+  return [pair, {right: 0, left: 0}] if pair.is_a? Integer
 
-  if nest == 1
 
-  end
-
-  if nest == 2
-
-  end
-
-  if nest == 3
-    if pair[1].is_a? Array
-      value, data = explode(pair[1], nest + 1)
-      return [pair[0] + data[:left], value]
-    end
+  # binding.pry
+  if nest.zero?
 
     if pair[0].is_a? Array
       value, data = explode(pair[0], nest + 1)
-      return [value , pair[1] + data[:right]]
+      return [value, [pair[1] + data[:right] ], data.merge({right: 0})].first
     end
+
+    if pair[1].is_a? Array
+      value, data = explode(pair[1], nest + 1)
+      return [ [pair[0] + data[:left], value ], data.merge({left: 0})].first
+    end
+  end
+
+  if nest.between?(1, 3)
+    if pair[0].is_a? Array
+      value, data = explode(pair[0], nest + 1)
+      return [ [value , pair[1] + data[:right] ], data.merge({right: 0})]
+    end
+
+    if pair[1].is_a? Array
+      value, data = explode(pair[1], nest + 1)
+      return [[pair[0] + data[:left], value], data.merge({left: 0})]
+    end
+
   end
 
   if nest == 4
     return [0, {left: pair[0], right: pair[1] } ]
   end
 
-
-  [explode(pair[0], nest + 1), explode(pair[1], nest + 1)]
+  return [pair, {left: 0, right: 0}] if pair.all? { |el| el.is_a? Integer }
 end
+
+# p explode([7,[6,[5,[4,[3,2]]]]], 0)
+#  p explode([[6,[5,[4,[3,2]]]],1], 0)
+
+p explode([[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]], 0)
