@@ -19,6 +19,11 @@ def explode(arr)
       p "explodable found at idx #{idx}"
       left, right = arr[idx][0][0][0]
       arr[idx][0][0][0] = 0
+      binding.pry
+      if !idx.zero? && arr[idx - 1] && arr[idx - 1].is_a?(Integer)
+        arr[idx - 1] += left
+      end
+
       arr[idx][0][0][1] += right
     end
   end
@@ -26,5 +31,7 @@ def explode(arr)
   arr
 end
 
-p explode([[[[[9,8],1],2],3],4])
+# explode([[[[[9,8],1],2],3],4])
 #=> [[[[0,9],2],3],4]
+
+# p explode()
