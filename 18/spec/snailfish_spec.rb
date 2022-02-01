@@ -46,5 +46,43 @@ describe "#explode" do
       expect(res).to eq([[6,[5,[7,0]]],3])
     end
   end
+end
 
+describe '#split' do
+  context 'with number below 10' do
+    let(:five) { 5 }
+    let(:nine) { 9 }
+    it 'returns the same number' do
+      res = split(five)
+      expect(res).to eq(5)
+
+      res = split(nine)
+      expect(res).to eq(9)
+    end
+  end
+  context "with numbers above 10" do
+    context 'with an odd integer' do
+      let(:thirteen) { 13 }
+      let(:fifteen) { 15 }
+      it 'returns the small part of the division at the beginning of the array' do
+        res = split(thirteen)
+        expect(res).to eq([6,7])
+
+        res = split(fifteen)
+        expect(res).to eq([7,8])
+      end
+    end
+
+    context 'with an even integer' do
+      let(:fourteen) { 14 }
+      let(:eighteen) { 18 }
+      it 'returns an evenly split array' do
+        res = split(fourteen)
+        expect(res).to eq([7,7])
+
+        res = split(eighteen)
+        expect(res).to eq([9,9])
+      end
+    end
+  end
 end

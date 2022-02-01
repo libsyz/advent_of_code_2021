@@ -93,6 +93,13 @@ def explode(pair, nest)
 
 end
 
+
+def split(number)
+  return number if number < 10
+
+  n = number / 2
+  [n, number - n]
+end
 # p explode([7,[6,[5,[4,[3,2]]]]], 0)
 #  p explode([[6,[5,[4,[3,2]]]],1], 0)
 
