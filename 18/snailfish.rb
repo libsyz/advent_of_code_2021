@@ -9,14 +9,13 @@ def add_on_right(element, number)
   return element + number if element.is_a? Integer
 
   if element.is_a? Array
+    dive = nil
     # figure out the first place I can add the number
-    dive = element[1]
-
-    until dive[1].is_a? Integer
-      dive = dive[1]
+     until dive.is_a?(Array) && dive.all? { |el| el.is_a? Integer }
+      dive ? dive = dive[1] : dive = element[1]
     end
-
-    dive += number
+    # binding.pry if dive.is_a? Array
+    dive[1] += number
 
     return element
   end
@@ -28,13 +27,12 @@ def add_on_left(element, number)
 
   if element.is_a? Array
     # figure out the first place I can add the number
-    dive = element[0]
-
+    dive = element
     until dive[0].is_a? Integer
       dive = dive[0]
     end
 
-    dive += number
+    dive[0] += number
 
     return element
   end
@@ -45,7 +43,7 @@ def explode(pair, nest)
 
 
   return [pair, {right: 0, left: 0}] if pair.is_a? Integer
-  # binding.pry
+
 
   if nest.zero?
     final = pair
@@ -57,7 +55,8 @@ def explode(pair, nest)
     if pair[0].is_a? Array
       value, data = explode(pair[0], nest + 1)
       final[0] = value
-      final[1] = add_on_right(pair[1], data[:right])
+      # binding.pry
+      final[1] = add_on_left(pair[1], data[:right])
     end
 
     if pair[1].is_a? Array
@@ -97,4 +96,4 @@ end
 # p explode([7,[6,[5,[4,[3,2]]]]], 0)
 #  p explode([[6,[5,[4,[3,2]]]],1], 0)
 
-p explode( [[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]], 0)
+p explode( [ [3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]] ], 0)
