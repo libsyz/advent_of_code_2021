@@ -17,6 +17,7 @@ def add_on_right(element, number)
     end
 
     dive += number
+
     return element
   end
 end
@@ -34,31 +35,38 @@ def add_on_left(element, number)
     end
 
     dive += number
+
     return element
   end
 end
 
 
 def explode(pair, nest)
-  # binding.pry
-  binding.pry if nest == 3
-  return [pair, {right: 0, left: 0}] if pair.is_a? Integer
 
+
+  return [pair, {right: 0, left: 0}] if pair.is_a? Integer
   # binding.pry
+
   if nest.zero?
+    final = pair
+
     if pair.all? { |el| el.is_a? Integer }
-      return [pair, { right: 0, left: 0} ]
+      return final
     end
 
     if pair[0].is_a? Array
       value, data = explode(pair[0], nest + 1)
-      return [ [ value, pair[1] + data[:right] ], data.merge({right: 0})].first
+      final[0] = value
+      final[1] = add_on_right(pair[1], data[:right])
     end
 
     if pair[1].is_a? Array
       value, data = explode(pair[1], nest + 1)
-      return [ [pair[0] + data[:left], value ], data.merge({left: 0})].first
+      final[1] = value
+      final[0] = add_on_left(pair[0], data[:left])
     end
+
+    return final
   end
 
   if nest.between?(1, 3)
@@ -68,12 +76,12 @@ def explode(pair, nest)
 
     if pair[0].is_a? Array
       value, data = explode(pair[0], nest + 1)
-      return [ [value , pair[1] + data[:right] ], data.merge({right: 0})]
+      return [ [value , add_on_right(pair[1], data[:right]) ], data.merge({right: 0})]
     end
 
     if pair[1].is_a? Array
       value, data = explode(pair[1], nest + 1)
-      return [[pair[0] + data[:left], value], data.merge({left: 0})]
+      return [[add_on_left(pair[0], data[:left]), value], data.merge({left: 0})]
     end
 
   end
@@ -89,4 +97,4 @@ end
 # p explode([7,[6,[5,[4,[3,2]]]]], 0)
 #  p explode([[6,[5,[4,[3,2]]]],1], 0)
 
-p explode([[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]], 0)
+p explode( [[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]], 0)
