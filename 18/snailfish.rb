@@ -96,11 +96,26 @@ end
 
 def split(number)
   return number if number < 10
-
   n = number / 2
   [n, number - n]
 end
-# p explode([7,[6,[5,[4,[3,2]]]]], 0)
-#  p explode([[6,[5,[4,[3,2]]]],1], 0)
 
-p explode( [ [3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]] ], 0)
+def split_pair(pair)
+  result = []
+  pair.each_with_index do |el, idx|
+    var = nil
+
+    if el.is_a? Integer
+      result << split(pair[idx])
+    end
+
+    if el.is_a?(Array)
+      result << split_pair(pair[idx])
+    end
+  end
+
+  return result
+
+end
+
+p split_pair([[[[0,7],4],[15,[0,13]]],[1,1]])

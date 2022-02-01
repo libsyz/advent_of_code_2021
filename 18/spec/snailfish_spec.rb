@@ -48,6 +48,16 @@ describe "#explode" do
   end
 end
 
+describe "#split_pair" do
+  context 'with a pair with two splitable pairs' do
+    let(:pair) { [[[[0,7],4],[15,[0,13]]],[1,1]] }
+    it 'splits the pair correctly' do
+      res = split_pair(pair)
+      expect(res).to eq([[[[0,7],4],[[7,8],[0,[6,7]]]],[1,1]])
+    end
+  end
+end
+
 describe '#split' do
   context 'with number below 10' do
     let(:five) { 5 }
