@@ -62,7 +62,7 @@ def explode(pair, nest)
     if pair[1].is_a? Array
       value, data = explode(pair[1], nest + 1)
       final[1] = value
-      final[0] = add_on_left(pair[0], data[:left])
+      final[0] = add_on_right(pair[0], data[:left])
     end
 
     return final
