@@ -32,7 +32,7 @@ describe "#explode" do
   end
 
   context 'with two deeply wrapped pairs' do
-    let(:arr) { [[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]] }
+    let(:arr) { [ [3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]] ] }
     it 'explodes properly' do
       res = explode(arr, 0)
       expect(res).to eq([[3,[2,[8,0]]],[9,[5,[7,0]]]])
