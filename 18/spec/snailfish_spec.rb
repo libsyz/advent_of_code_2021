@@ -99,11 +99,21 @@ describe '#split' do
 end
 
 describe "#calculate" do
-  context "with a set of simple, non nested pairs" do
+  context "with a set of simple, non nested pairs that will not explode" do
     let(:pairs) { [[1,1], [2,2], [3,3], [4,4]] }
     it 'calculates the right sum' do
       res = calculate(pairs)
       expect(res).to eq([[[[1,1],[2,2]],[3,3]],[4,4]])
     end
   end
+
+  context "with a set of simple, non nested pairs that will explode" do
+    let(:pairs) { [[1,1], [2,2], [3,3], [4,4], [5,5]] }
+    it 'calculates the right sum' do
+      res = calculate(pairs)
+
+      expect(res).to eq([[[[3,0],[5,3]],[4,4]],[5,5]])
+    end
+  end
+
 end
