@@ -9,7 +9,7 @@ def add_on_right(element, number)
   return element + number if element.is_a? Integer
 
   if element.is_a? Array
-    dive = nil
+    dive = element
     # figure out the first place I can add the number
      until dive.is_a?(Array) && dive.all? { |el| el.is_a? Integer }
       dive ? dive = dive[1] : dive = element[1]
@@ -40,6 +40,7 @@ end
 
 
 def explode(pair, nest)
+  binding.pry
   return [pair, {right: 0, left: 0}] if pair.is_a? Integer
 
   if nest.zero?
@@ -118,7 +119,7 @@ end
 
 def calculate(pairs)
   result = pairs.shift
-
+  binding.pry
   until pairs.empty?
     result = snail_add(result, pairs.shift)
     loop do  # this does not make any sense for now
@@ -132,3 +133,8 @@ def calculate(pairs)
   return result
   # do it again if the result has changed
 end
+
+p explode( [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]], [5, 5]], 0 )
+
+# pairs = [[1,1], [2,2], [3,3], [4,4], [5,5]]
+# calculate(pairs)

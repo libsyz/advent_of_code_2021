@@ -15,6 +15,13 @@ describe '#snail_add' do
 end
 
 describe "#explode" do
+  context "with an explodable element at the beginning of the array" do
+    let(:arr) { [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]], [5, 5]] }
+    it 'returns a pair and does not enter a loop!' do
+      expect(res.class).to eq Array
+    end
+  end
+
   context 'with an explodable element at the beginning of the array' do
     let(:arr) { [[[[[9,8],1],2],3],4] }
     it 'explodes properly' do
