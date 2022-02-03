@@ -124,4 +124,12 @@ describe "#calculate" do
     end
   end
 
+  context "with a set of simple, non nested pairs that will explode and split" do
+    let(:pairs) { [[1,1], [2,2], [3,3], [4,4], [5,5], [6,6]] }
+    it 'calculates the right sum' do
+      res = calculate(pairs)
+      expect(res).to eq([[[[5,0],[7,4]],[5,5]],[6,6]])
+    end
+  end
+
 end
