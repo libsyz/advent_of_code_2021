@@ -67,19 +67,27 @@ def explode(pair, nest)
   end
 
   if nest.between?(1, 3)
+    intermediate = [pair, {}]
+
     if pair.all? { |el| el.is_a? Integer }
-      return [pair, { right: 0, left: 0 } ]
+      intermediate = [pair, { right: 0, left: 0 } ]
     end
 
-    if pair[0].is_a? Array
+    if pair[0].is_a?(Array)
       value, data = explode(pair[0], nest + 1)
-      return [ [value , add_on_right(pair[1], data[:right]) ], data.merge({right: 0})]
+      intermediate[0][0] = value
+      intermediate[0][1] = add_on_right(pair[1], data[:right])
+      intermediate[1] = data.merge({right: 0})
     end
 
-    if pair[1].is_a? Array
+    if pair[1].is_a?(Array)
       value, data = explode(pair[1], nest + 1)
-      return [[add_on_left(pair[0], data[:left]), value], data.merge({left: 0})]
+      intermediate[0][1] = value
+      intermediate[0][0] = add_on_left(pair[0], data[:left])
+      intermediate[1] = data.merge({left: 0})
     end
+
+    return intermediate
 
   end
 

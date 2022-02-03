@@ -15,11 +15,11 @@ describe '#snail_add' do
 end
 
 describe "#explode" do
-  context "with an explodable element at the beginning of the array" do
+  context "with two explodable elements nested within the same pair" do
     let(:arr) { [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]], [5, 5]] }
-    it 'returns a pair and does not enter a loop!' do
+    it 'explodes properly!' do
       res = explode(arr, 0)
-      expect(res.class).to eq Array
+      expect(res).to eq [[[[3, 0], [5, 3]], [4, 4]], [5, 5]]
     end
   end
 
