@@ -40,10 +40,7 @@ end
 
 
 def explode(pair, nest)
-
-
   return [pair, {right: 0, left: 0}] if pair.is_a? Integer
-
 
   if nest.zero?
     final = pair
@@ -118,4 +115,20 @@ def split_pair(pair)
 
 end
 
-p split_pair([[[[0,7],4],[15,[0,13]]],[1,1]])
+
+def calculate(pairs)
+  result = pairs.shift
+
+  until pairs.empty?
+    result = snail_add(result, pairs.shift)
+    loop do  # this does not make any sense for now
+      addition = split_pair(explode(result, 0))
+      break if addition == result
+      result = addition
+    end
+  end
+  # explode both of them
+  # split both of them
+  return result
+  # do it again if the result has changed
+end

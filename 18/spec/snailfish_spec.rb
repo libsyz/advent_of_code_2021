@@ -70,6 +70,7 @@ describe '#split' do
       expect(res).to eq(9)
     end
   end
+
   context "with numbers above 10" do
     context 'with an odd integer' do
       let(:thirteen) { 13 }
@@ -93,6 +94,16 @@ describe '#split' do
         res = split(eighteen)
         expect(res).to eq([9,9])
       end
+    end
+  end
+end
+
+describe "#calculate" do
+  context "with a set of simple, non nested pairs" do
+    let(:pairs) { [[1,1], [2,2], [3,3], [4,4]] }
+    it 'calculates the right sum' do
+      res = calculate(pairs)
+      expect(res).to eq([[[[1,1],[2,2]],[3,3]],[4,4]])
     end
   end
 end
