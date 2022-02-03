@@ -18,6 +18,7 @@ describe "#explode" do
   context "with an explodable element at the beginning of the array" do
     let(:arr) { [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]], [5, 5]] }
     it 'returns a pair and does not enter a loop!' do
+      res = explode(arr, 0)
       expect(res.class).to eq Array
     end
   end

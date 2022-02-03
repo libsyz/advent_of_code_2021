@@ -40,7 +40,7 @@ end
 
 
 def explode(pair, nest)
-  binding.pry
+  # binding.pry
   return [pair, {right: 0, left: 0}] if pair.is_a? Integer
 
   if nest.zero?
@@ -119,7 +119,7 @@ end
 
 def calculate(pairs)
   result = pairs.shift
-  binding.pry
+  # binding.pry
   until pairs.empty?
     result = snail_add(result, pairs.shift)
     loop do  # this does not make any sense for now
@@ -134,7 +134,7 @@ def calculate(pairs)
   # do it again if the result has changed
 end
 
-p explode( [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]], [5, 5]], 0 )
+# p explode( [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]], [5, 5]], 0 )
 
 # pairs = [[1,1], [2,2], [3,3], [4,4], [5,5]]
 # calculate(pairs)
