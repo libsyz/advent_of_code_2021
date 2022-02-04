@@ -132,23 +132,26 @@ end
 
 
 def calculate(pairs)
-  result = pairs.shift
+  pair = pairs.shift
+
   # binding.pry
   until pairs.empty?
-    result = snail_add(result, pairs.shift)
-    loop do  # this does not make any sense for now
-      addition = split_pair(explode(result, 0))
-      break if addition == result
-      result = addition
+    pair = snail_add(pair, pairs.shift)
+    loop do
+      clone = Marshal.load(Marshal.dump(pair))
+      reduction = split_pair(explode(clone, 0))
+      break if reduction == pair
+      pair = reduction
     end
   end
   # explode both of them
   # split both of them
-  return result
+  return pair
   # do it again if the result has changed
 end
 
- p explode( [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]], [5, 5]], 0 )
+
+p calculate([[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]], [[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]])
 
 # pairs = [[1,1], [2,2], [3,3], [4,4], [5,5]]
 # calculate(pairs)
