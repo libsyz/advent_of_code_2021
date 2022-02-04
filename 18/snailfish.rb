@@ -150,6 +150,23 @@ def calculate(pairs)
   # do it again if the result has changed
 end
 
+def reduce(pairs)
+  # binding.pry
+  exploded = explode(pairs, 0)
+  binding.pry
+
+  if exploded != pairs
+    return reduce(exploded)
+  else
+    splitd = split_pair(pairs)
+    if splitd != pairs
+      return reduce(splitd)
+    else
+      return splitd
+    end
+  end
+end
+
 def magnitude(pair)
   total = 0
   pair.each_with_index do |el, idx|
@@ -160,3 +177,14 @@ def magnitude(pair)
   end
   total
 end
+
+p [ [[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], 5 ]
+binding.pry
+p result = explode([ [[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], 5 ], 0)
+p result = split_pair(result)
+p result = explode(result, 0)
+p result = split_pair(result)
+p result = explode(result, 0)
+p result = split_pair(result)
+p result = explode(result, 0)
+p result = split_pair(result)

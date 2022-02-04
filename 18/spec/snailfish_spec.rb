@@ -132,14 +132,23 @@ describe "#calculate" do
     end
   end
 
+  context 'with a simple example' do
+    let(:pairs) { [[[[[4,3],4],4],[7,[[8,4],9]]], [1,1]]}
+    it 'calculates the right sum' do
+      res = calculate(pairs)
+      expect(res).to eq([[[[0,7],4],[[7,8],[6,0]]],[8,1]])
+    end
+  end
+
   context "with a set of multiple nested pairs" do
     let(:pairs) { [
-      [[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]], [[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]
+      [[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], [7,[[[3,7],[4,3]],[[6,3],[8,8]]]]
     ]}
 
     it 'calculates the right sum' do
+      binding.pry
       res = calculate(pairs)
-      expect(res).to eq([[[[6,7],[6,7]],[[7,7],[0,7]]],[[[8,7],[7,7]],[[8,8],[8,0]]]])
+      expect(res).to eq([[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]])
     end
 
   end
@@ -225,3 +234,12 @@ describe "#magnitude" do
     end
   end
 end
+
+
+[[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], [7,[[[3,7],[4,3]],[[6,3],[8,8]]]]]
+
+
+
+
+#SOLUTION
+[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]]
