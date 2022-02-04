@@ -165,3 +165,26 @@ describe "#calculate" do
   end
 
 end
+
+
+describe "#magnitude" do
+  context 'with a simple pair' do
+
+    let(:pair_one) { [9,1] }
+
+    it 'calculates the right magnitude' do
+      res = magnitude(pair_one)
+      expect(res).to eq(29)
+    end
+  end
+
+  context 'with a level-1 nested pair' do
+    let(:pair_two) { [[9,1],[1,9]] }
+
+    it 'calculates the right magnitude' do
+      res = magnitude(pair_two)
+      expect(res).to eq(129)
+    end
+  end
+
+end

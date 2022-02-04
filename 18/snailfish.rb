@@ -150,8 +150,13 @@ def calculate(pairs)
   # do it again if the result has changed
 end
 
-
-p calculate([[[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]], [[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]])
-
-# pairs = [[1,1], [2,2], [3,3], [4,4], [5,5]]
-# calculate(pairs)
+def magnitude(pair)
+  total = 0
+  pair.each_with_index do |el, idx|
+    total += magnitude(el) * 3 if (idx == 0) && el.is_a?(Array)
+    total += magnitude(el) * 2 if (idx == 1) && el.is_a?(Array)
+    total += el * 3 if (idx == 0) && el.is_a?(Integer)
+    total += el * 2 if (idx == 1) && el.is_a?(Integer)
+  end
+  total
+end
