@@ -187,4 +187,41 @@ describe "#magnitude" do
     end
   end
 
+  context 'with a level-2 nested pair' do
+    let(:pair_two) { [[1,2],[[3,4],5]] }
+
+    it 'calculates the right magnitude' do
+      res = magnitude(pair_two)
+      expect(res).to eq(143)
+    end
+  end
+
+  context 'with a level-3 nested pair' do
+    let(:pair_three) { [[[[0,7],4],[[7,8],[6,0]]],[8,1]] }
+
+    it 'calculates the right magnitude' do
+      res = magnitude(pair_three)
+      expect(res).to eq(1384)
+    end
+  end
+
+  context 'with level-4 nested pairs' do
+    let(:pair_four_short) { [[[[1,1],[2,2]],[3,3]],[4,4]] }
+    let(:pair_four_long) { [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]] }
+
+    it 'calculates the right magnitude' do
+      res = magnitude(pair_four_short)
+      expect(res).to eq(445)
+      res = magnitude(pair_four_long)
+      expect(res).to eq(3488)
+    end
+  end
+
+  context 'with the output of a more complicated example' do
+    let(:pair) { [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]] }
+    it 'calculates the right magnitude' do
+      res = magnitude(pair)
+      expect(res).to eq(4140)
+    end
+  end
 end
