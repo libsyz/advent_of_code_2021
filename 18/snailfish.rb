@@ -38,7 +38,6 @@ def add_on_left(element, number)
   end
 end
 
-
 def explode(pair, nest)
   # binding.pry
   return [pair, {right: 0, left: 0 }] if pair.is_a? Integer
@@ -79,6 +78,7 @@ def explode(pair, nest)
     end
 
     if pair[0].is_a?(Array)
+
       value, data = explode(pair[0], nest + 1)
       intermediate[0][0] = value
       intermediate[0][1] = add_on_left(pair[1], data[:right])
@@ -86,11 +86,13 @@ def explode(pair, nest)
     end
 
     if pair[1].is_a?(Array)
-
-      value, data = explode(pair[1], nest + 1)
+      # binding.pry
+      data_remaining = data.respond_to?(:[]) && data[:left] > 1 ? data[:left] : nil
+      # if there is data on the left, make sure I don't lose it
+      value, data_pair = explode(pair[1], nest + 1)
       intermediate[0][1] = value
-      intermediate[0][0] = add_on_right(pair[0], data[:left])
-      intermediate[1] = data.merge( { left: 0 })
+      intermediate[0][0] = add_on_right(pair[0], data_pair[:left])
+      intermediate[1] = data_pair.merge( { left: data_remaining ? data_remaining : 0 })
     end
 
     return intermediate
@@ -178,13 +180,13 @@ def magnitude(pair)
   total
 end
 
-p [ [[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], 5 ]
-binding.pry
-p result = explode([ [[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], 5 ], 0)
-p result = split_pair(result)
-p result = explode(result, 0)
-p result = split_pair(result)
-p result = explode(result, 0)
-p result = split_pair(result)
-p result = explode(result, 0)
-p result = split_pair(result)
+
+tree = [[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]], [7,[[[3,7],[4,3]],[[6,3],[8,8]]]]]
+p tree
+p tree = explode(tree, 0)
+p tree = split_pair(tree)
+p tree = explode(tree, 0)
+p tree = split_pair(tree)
+
+p  "expected: [[[[4, 0], [5, 4]], [[7, 7], [6, 0]]], [[8, [7, 7]], [[7, 9], [5, 0]]]]"
+p  "got: [[[[4, 0], [5, 4]], [[7, 7], [6, 5]]], [[[5, 5], [0, 6]], [[6, 5], [5, 5]]]]"
