@@ -1,4 +1,5 @@
 require 'rspec'
+require 'pry-byebug'
 require_relative '../beacon_scanner'
 require_relative 'example_data'
 
@@ -15,12 +16,21 @@ end
 
 describe "#beacon_counter" do
   context "with two scanners" do
-    it "detects 12 overlapping beacons" do
+    it "detects 12 overlapping beacons for scanners zero and one" do
       scanners = [SCANNER_ZERO, SCANNER_ONE]
       res = beacon_counter(scanners)
       expect(res).to eq(12)
     end
+
+    it "detects 12 overlapping beacons for scanner one and four" do
+      scanners = [SCANNER_ONE, SCANNER_FOUR]
+      # binding.pry
+      res = beacon_counter(scanners)
+      expect(res).to eq(12)
+    end
   end
+
+
 
   context 'with four scanners from the AoC example' do
     it 'detects 79 beacons' do

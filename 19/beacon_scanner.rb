@@ -26,7 +26,7 @@ def beacon_counter(scanners)
     (scanners[0][0][0] - beacon[0]).abs + (scanners[0][0][1] - beacon[1]).abs + (scanners[0][0][2] - beacon[2]).abs
   end
 
-  beacon_count = 0
+ beacon_count = 0
 
   scanners[1].each_with_index do |el, idx|
     correspondance = scanners[1].map do |beacon|
