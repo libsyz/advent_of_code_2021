@@ -24,7 +24,7 @@ describe "#beacon_counter" do
 
   context 'with four scanners from the AoC example' do
     it 'detects 79 beacons' do
-      scanners = [SCANNER_ZERO, SCANNER_ONE, ,SCANNER_TWO, SCANNER_THREE, SCANNER_FOUR]
+      scanners = [SCANNER_ZERO, SCANNER_ONE,SCANNER_TWO, SCANNER_THREE, SCANNER_FOUR]
       res = beacon_counter(scanners)
       expect(res).to eq(79)
     end
