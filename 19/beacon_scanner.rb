@@ -32,8 +32,9 @@ def beacon_counter(scanners)
       (scanners[1][idx][0] - beacon[0]).abs + (scanners[1][idx][1] - beacon[1]).abs + (scanners[1][idx][2] - beacon[2]).abs
     end
     # binding.pry
-    binding.pry if (correspondance & anchor_values).length == 11
 
-    return true if (correspondance & anchor_values).length >= 12
+
+    return true if correspondance.count { |el| anchor_values.include?(el) } >= 12
+    # be careful with this line, it low-key assumes that all the manhattan distances will be unique
   end
 end

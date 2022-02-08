@@ -15,10 +15,18 @@ end
 
 describe "#beacon_counter" do
   context "with two scanners" do
-    it "detects at least 12 overlapping beacons" do
+    it "detects 12 overlapping beacons" do
       scanners = [SCANNER_ZERO, SCANNER_ONE]
       res = beacon_counter(scanners)
-      expect(res).to eq(true)
+      expect(res).to eq(12)
+    end
+  end
+
+  context 'with four scanners from the AoC example' do
+    it 'detects 79 beacons' do
+      scanners = [SCANNER_ZERO, SCANNER_ONE, ,SCANNER_TWO, SCANNER_THREE, SCANNER_FOUR]
+      res = beacon_counter(scanners)
+      expect(res).to eq(79)
     end
   end
 end
