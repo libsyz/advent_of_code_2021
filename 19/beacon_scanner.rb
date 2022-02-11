@@ -5,7 +5,7 @@ def overlap?(scanners)
   manhattans = []
   scanners.first.each_with_index do |ref, i|
     # I want to get all the manhattan distances
-    scanners.last.each do |banana, j|
+      scanners.last.each do |banana, j|
       binding.pry
       (ref[0] - beacon[0]).abs + (ref[1] - beacon[1]).abs + (ref[2] - beacon[2]).abs
     end
